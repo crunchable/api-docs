@@ -179,6 +179,15 @@ html, body {
     color: $nav-active-text;
   }
 
+  .tocify-header li[data-unique="toc-section"] {
+    box-shadow: 0 0 0 $nav-active-shadow;
+    background-color: $nav-bg;
+    pointer-events: none;
+    cursor: default;
+    margin: 8px 0 2px -2px;
+    color: $nav-section;
+  }
+
   // Subheaders are the submenus that slide open
   // in the table of contents.
   .tocify-subheader {
