@@ -154,7 +154,7 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/choice-single" \
+curl "https://api.crunchable.io/v1/requests/choice-multiple" \
   -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
   -d instruction="Select all the images of dogs" \
   -d choices_type="image" \
@@ -170,7 +170,7 @@ var crunchable = require("crunchable")(
   "test_j3tepqvrYIaYsBQ6EzlHeABI"
 );
 
-crunchable.choiceSingle({
+crunchable.choiceMultiple({
   instruction: "Select all the images of dogs",
   choices_type: "image",
   choices: [
