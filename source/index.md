@@ -198,7 +198,7 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/choice-single" \
+curl "https://api.crunchable.io/v1/requests/choice-single?block=10" \
   -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
   -d instruction="Does the image contain any sexual content?" \
   -d attachments_type="image" \
@@ -214,7 +214,7 @@ var crunchable = require("crunchable")(
   "test_j3tepqvrYIaYsBQ6EzlHeABI"
 );
 
-crunchable.choiceSingle({
+crunchable.requestChoiceSingle({
   instruction: "Does the image contain any sexual content?",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/qRWH5.jpg" ],
@@ -265,7 +265,7 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/choice-single" \
+curl "https://api.crunchable.io/v1/requests/choice-single?block=10" \
   -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
   -d instruction="Does the image contain any sexual content?" \
   -d attachments_type="image" \
@@ -281,7 +281,7 @@ var crunchable = require("crunchable")(
   "test_j3tepqvrYIaYsBQ6EzlHeABI"
 );
 
-crunchable.choiceSingle({
+crunchable.requestChoiceSingle({
   instruction: "Does the image contain any sexual content?",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/qRWH5.jpg" ],
@@ -325,9 +325,9 @@ block | 0 | Time in seconds the request should block for a response. If the requ
 Name | Type | Description
 --------- | ------- | -----------
 instruction | string | Sentence explaining in natural language what exactly is requested in this call.
-attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`sound` - URL of a sound (wav,mp3)<br>`website` - URL of a website (html)
+attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
 attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
-choices_type *(optional)* | string | The type of the array elements in the `choices` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`sound` - URL of a sound (wav,mp3)<br>`website` - URL of a website (html)
+choices_type *(optional)* | string | The type of the array elements in the `choices` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
 choices | string[] | An array of strings describing the potential choices.
 
 ### Return Value
@@ -369,7 +369,7 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/choice-multiple" \
+curl "https://api.crunchable.io/v1/requests/choice-multiple?block=10" \
   -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
   -d instruction="Select all the images of dogs" \
   -d choices_type="image" \
@@ -385,7 +385,7 @@ var crunchable = require("crunchable")(
   "test_j3tepqvrYIaYsBQ6EzlHeABI"
 );
 
-crunchable.choiceMultiple({
+crunchable.requestChoiceMultiple({
   instruction: "Select all the images of dogs",
   choices_type: "image",
   choices: [
@@ -441,9 +441,9 @@ block | 0 | Time in seconds the request should block for a response. If the requ
 Name | Type | Description
 --------- | ------- | -----------
 instruction | string | Sentence explaining in natural language what exactly is requested in this call.
-attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`sound` - URL of a sound (wav,mp3)<br>`website` - URL of a website (html)
+attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
 attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
-choices_type *(optional)* | string | The type of the array elements in the `choices` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`sound` - URL of a sound (wav,mp3)<br>`website` - URL of a website (html)
+choices_type *(optional)* | string | The type of the array elements in the `choices` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
 choices | string[] | An array of strings describing the potential choices.
 min *(optional)* | number | Minimum number of allowed answers Defaults to 1.
 max *(optional)* | number | Maximum number of allowed answers. Defaults to the total number of choices.
@@ -466,6 +466,338 @@ choices_type | string | *provided when making the request*
 choices | string[] | *provided when making the request*
 min | number | *provided when making the request*
 max | number | *provided when making the request*
+
+# Free Form
+
+## Free text
+
+```http
+POST /v1/requests/free-text?block=10 HTTP/1.1
+Host: api.crunchable.io
+Content-Type: application/json
+Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+
+{
+  "instruction": "Translate from Spanish to English",
+  "attachments_type": "text",
+  "attachments": [ "hola mundo" ]
+}
+```
+
+```shell
+curl "https://api.crunchable.io/v1/requests/free-text?block=10" \
+  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -d instruction="Translate from Spanish to English" \
+  -d attachments_type="text" \
+  -d attachments[0]="hola mundo"
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+);
+
+crunchable.requestFreeText({
+  instruction: "Translate from Spanish to English",
+  attachments_type: "text",
+  attachments: [ "hola mundo" ]
+}, 10, function (err, res) {
+  // handle response here
+});
+```
+
+> Example Response (JSON)
+
+```json
+{
+  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
+  "status": "complete",
+  "response": "hello world",
+  "type": "free-text",
+  "instruction": "Translate from Spanish to English",
+  "attachments_type": "text",
+  "attachments": [ "hola mundo" ]
+}
+```
+
+Give a question and receive a free-text response.
+
+### HTTP Request
+
+`POST /v1/requests/free-text`
+
+### Query Parameters
+
+Name | Default | Description
+--------- | ------- | -----------
+block | 0 | Time in seconds the request should block for a response. If the request isn't completed before this timeout, a pending result is returned.
+
+### Request Body Parameters
+
+Name | Type | Description
+--------- | ------- | -----------
+instruction | string | Sentence explaining in natural language what exactly is requested in this call.
+attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
+attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+validation *(optional)* | string | Limit the response to certain types of output. Potential values:<br>`number` - numbers only<br>`url` - valid URL addresses
+
+### Return Value
+
+A `Request` object in a pending or completed state.
+
+Name | Type | Description
+--------- | ------- | -----------
+id | string | A unique ID for this request, used to identify this request in future calls.
+status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
+response *(optional)* | string | The response for the completed request (if available).
+type | string | The request type, always `free-text`.
+ | |
+instruction | string | *provided when making the request*
+attachments_type | string | *provided when making the request*
+attachments | string[] | *provided when making the request*
+validation | string | *provided when making the request*
+
+## Image
+
+```http
+POST /v1/requests/image?block=10 HTTP/1.1
+Host: api.crunchable.io
+Content-Type: application/json
+Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+
+{
+  "instruction": "A picture of a birthday cake"
+}
+```
+
+```shell
+curl "https://api.crunchable.io/v1/requests/image?block=10" \
+  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -d instruction="A picture of a birthday cake"
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+);
+
+crunchable.requestImage({
+  instruction: "A picture of a birthday cake"
+}, 10, function (err, res) {
+  // handle response here
+});
+```
+
+> Example Response (JSON)
+
+```json
+{
+  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
+  "status": "complete",
+  "response": "http://i.imgur.com/x83UxTJ.jpg",
+  "type": "image",
+  "instruction": "A picture of a birthday cake"
+}
+```
+
+Give a description of an image you would like to receive. There are no guarantees regarding the usage rights or licensing of the image.
+
+### HTTP Request
+
+`POST /v1/requests/image`
+
+### Query Parameters
+
+Name | Default | Description
+--------- | ------- | -----------
+block | 0 | Time in seconds the request should block for a response. If the request isn't completed before this timeout, a pending result is returned.
+
+### Request Body Parameters
+
+Name | Type | Description
+--------- | ------- | -----------
+instruction | string | Sentence explaining in natural language what exactly is requested in this call.
+attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
+attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+
+### Return Value
+
+A `Request` object in a pending or completed state.
+
+Name | Type | Description
+--------- | ------- | -----------
+id | string | A unique ID for this request, used to identify this request in future calls.
+status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
+response *(optional)* | string | The response for the completed request (if available). A URL for the requested image.
+type | string | The request type, always `image`.
+ | |
+instruction | string | *provided when making the request*
+attachments_type | string | *provided when making the request*
+attachments | string[] | *provided when making the request*
+
+## Video
+
+```http
+POST /v1/requests/video?block=10 HTTP/1.1
+Host: api.crunchable.io
+Content-Type: application/json
+Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+
+{
+  "instruction": "A video of a cat walking"
+}
+```
+
+```shell
+curl "https://api.crunchable.io/v1/requests/video?block=10" \
+  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -d instruction="A video of a cat walking"
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+);
+
+crunchable.requestVideo({
+  instruction: "A video of a cat walking"
+}, 10, function (err, res) {
+  // handle response here
+});
+```
+
+> Example Response (JSON)
+
+```json
+{
+  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
+  "status": "complete",
+  "response": "https://r15---sn-4g57kn6s.googlevideo.com/videoplayback?sver=3&dur=63.129&signature=7B99F64C8D39C4DFAD25CD22D6818252E2AD4D2E.5E340A4D94BEF14701416B0230EAE8F4098D8D08&keepalive=yes&sparams=clen,dur,expire,gir,id,ip,ipbits,itag,keepalive,lmt,mime,mm,mn,ms,mv,nh,pl,requiressl,source,upn&lmt=1434349079471384&gir=yes&expire=1446342569&id=o-APt8srmH93a9dAjKK_VFO1KKgTyClaCfo8QnodqIQIOt&source=youtube&pl=23&requiressl=yes&mime=video/mp4&ip=149.78.18.80&fexp=9407188,9408495,9408710,9409129,9409206,9413031,9414764,9415435,9416126,9417097,9417223,9417707,9418400,9420309,9421253,9421502,9422349,9422596,9422947,9423037,9423170&clen=1958886&itag=133&ipbits=0&upn=1pYqxKF_qDY&key=cms1&ratebypass=yes&title=Cat%20Walking%20-%20%5Bwww.getlinkyoutube.com%5D&redirect_counter=1&req_id=60d93d744c2ba3ee&cms_redirect=yes&mm=30&mn=sn-4g57kn6s&ms=nxu&mt=1446320978&mv=m&nh=IgpwcjAxLmZyYTAzKgkxMjcuMC4wLjE",
+  "type": "video",
+  "instruction": "A video of a cat walking"
+}
+```
+
+Give a description of a video you would like to receive. There are no guarantees regarding the usage rights or licensing of the video.
+
+### HTTP Request
+
+`POST /v1/requests/video`
+
+### Query Parameters
+
+Name | Default | Description
+--------- | ------- | -----------
+block | 0 | Time in seconds the request should block for a response. If the request isn't completed before this timeout, a pending result is returned.
+
+### Request Body Parameters
+
+Name | Type | Description
+--------- | ------- | -----------
+instruction | string | Sentence explaining in natural language what exactly is requested in this call.
+attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
+attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+
+### Return Value
+
+A `Request` object in a pending or completed state.
+
+Name | Type | Description
+--------- | ------- | -----------
+id | string | A unique ID for this request, used to identify this request in future calls.
+status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
+response *(optional)* | string | The response for the completed request (if available). A URL for the requested video.
+type | string | The request type, always `video`.
+ | |
+instruction | string | *provided when making the request*
+attachments_type | string | *provided when making the request*
+attachments | string[] | *provided when making the request*
+
+## Audio
+
+```http
+POST /v1/requests/audio?block=10 HTTP/1.1
+Host: api.crunchable.io
+Content-Type: application/json
+Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+
+{
+  "instruction": "Pronounce the word",
+  "attachments_type": "text",
+  "attachments": [ "encyclopedia" ]
+}
+```
+
+```shell
+curl "https://api.crunchable.io/v1/requests/audio?block=10" \
+  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -d instruction="Pronounce the word" \
+  -d attachments_type="text" \
+  -d attachments[0]="encyclopedia"
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+);
+
+crunchable.requestAudio({
+  instruction: "Pronounce the word",
+  attachments_type: "text",
+  attachments: [ "encyclopedia" ]
+}, 10, function (err, res) {
+  // handle response here
+});
+```
+
+> Example Response (JSON)
+
+```json
+{
+  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
+  "status": "complete",
+  "response": "http://static.sfdict.com/staticrep/dictaudio/E01/E0165900.mp3",
+  "type": "video",
+  "instruction": "Pronounce the word",
+  "attachments_type": "text",
+  "attachments": [ "encyclopedia" ]
+}
+```
+
+Give a description of audio you would like to receive. There are no guarantees regarding the usage rights or licensing of the audio.
+
+### HTTP Request
+
+`POST /v1/requests/audio`
+
+### Query Parameters
+
+Name | Default | Description
+--------- | ------- | -----------
+block | 0 | Time in seconds the request should block for a response. If the request isn't completed before this timeout, a pending result is returned.
+
+### Request Body Parameters
+
+Name | Type | Description
+--------- | ------- | -----------
+instruction | string | Sentence explaining in natural language what exactly is requested in this call.
+attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
+attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+
+### Return Value
+
+A `Request` object in a pending or completed state.
+
+Name | Type | Description
+--------- | ------- | -----------
+id | string | A unique ID for this request, used to identify this request in future calls.
+status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
+response *(optional)* | string | The response for the completed request (if available). A URL for the requested audio file.
+type | string | The request type, always `audio`.
+ | |
+instruction | string | *provided when making the request*
+attachments_type | string | *provided when making the request*
+attachments | string[] | *provided when making the request*
 
 <h1 id="toc-section">Management</h1>
 
