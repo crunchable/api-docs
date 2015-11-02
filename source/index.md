@@ -36,6 +36,14 @@ There are several types of requests:
 
 * [**Multiple Choice**](#multiple-choice) - You provide a set of pre-defined potential answers to the question and the response must be among this list.
 
+* [**Free Text**](#free-text) - The response is free text - just like asking a question in a sentence and receiving a sentence in return.
+
+* [**Rating**](#rating) - You provide a numeric sliding scale and the response is a numeric rating on this scale.
+
+* [**Media**](#media) - The response is an image, video or audio file according to the request.
+
+* [**Annotations**](#annotations) - You provide a resource such as an image and request annotations over its content (marked points of interest).
+
 When making a request, the most important parameter you need to provide is `instruction`. This is a sentence explaining in natural language what exactly is requested in this call. The amazing thing about the crunchable.io API is the fact that instructions can be given in *natural language*. This means the API is not limited and you can pretty much ask anything you want.
 
 ## Complete vs pending
@@ -90,7 +98,7 @@ A request might take a little time to process. This means that the response migh
 
 If a request is pending, the simplest method to wait until it's complete is by *polling* continuously. As long as the response is still pending, wait a little longer and try again. Both the [Retrieve response](#retrieve-response) method or the [Retrieve request](#retrieve-request) method can be used for this purpose:
 
-`POST /v1/requests/choice-single { ... }`<br>
+`POST /v1/requests/multiple-choice { ... }`<br>
 `{ id: "44647b6f-b033-4788-9ee2-9d7aa5cb0158", status: "pending", ... }`
 
 `GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158`<br>
@@ -183,30 +191,30 @@ The recommended practice is to double your delay time between calls. Let's assum
 > This call runs on staging because the API key starts with `test_`
 
 ```http
-POST /v1/requests/choice-single?block=10 HTTP/1.1
+POST /v1/requests/multiple-choice?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 
 {
-  "instruction": "Does the image contain any sexual content?",
+  "instruction": "Does the image contain violent content?",
   "attachments_type": "image",
   "attachments": [ "http://i.imgur.com/qRWH5.jpg" ],
   "choices_type": "text",
-  "choices": [ "yes", "no", "maybe" ]
+  "choices": [ "no violence", "mild violence", "intense violence" ]
 }
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/choice-single?block=10" \
+curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
   -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
-  -d instruction="Does the image contain any sexual content?" \
+  -d instruction="Does the image contain violent content?" \
   -d attachments_type="image" \
   -d attachments[0]="http://i.imgur.com/qRWH5.jpg" \
   -d choices_type="text" \
-  -d choices[0]="yes" \
-  -d choices[1]="no" \
-  -d choices[2]="maybe"
+  -d choices[0]="no violence" \
+  -d choices[1]="mild violence" \
+  -d choices[2]="intense violence"
 ```
 
 ```javascript
@@ -214,12 +222,12 @@ var crunchable = require("crunchable")(
   "test_j3tepqvrYIaYsBQ6EzlHeABI"
 );
 
-crunchable.requestChoiceSingle({
-  instruction: "Does the image contain any sexual content?",
+crunchable.requestMultipleChoice({
+  instruction: "Does the image contain violent content?",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/qRWH5.jpg" ],
   choices_type: "text",
-  choices: [ "yes", "no", "maybe" ]
+  choices: [ "no violence", "mild violence", "intense violence" ]
 }, 10, function (err, res) {
   // handle response here
 });
@@ -245,35 +253,41 @@ A request is a question made to the API server in the effort of receiving a resp
 
 * [**Multiple Choice**](#multiple-choice) - You provide a set of pre-defined potential answers to the question and the response must be among this list.
 
+* [**Free Text**](#free-text) - The response is free text - just like asking a question in a sentence and receiving a sentence in return.
+
+* [**Rating**](#rating) - You provide a numeric sliding scale and the response is a numeric rating on this scale.
+
+* [**Media**](#media) - The response is an image, video or audio file according to the request.
+
+* [**Annotations**](#annotations) - You provide a resource such as an image and request annotations over its content (marked points of interest).
+
 # Multiple Choice
 
-## Single answer
-
 ```http
-POST /v1/requests/choice-single?block=10 HTTP/1.1
+POST /v1/requests/multiple-choice?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 
 {
-  "instruction": "Does the image contain any sexual content?",
+  "instruction": "Does the image contain violent content?",
   "attachments_type": "image",
   "attachments": [ "http://i.imgur.com/qRWH5.jpg" ],
   "choices_type": "text",
-  "choices": [ "yes", "no", "maybe" ]
+  "choices": [ "no violence", "mild violence", "intense violence" ]
 }
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/choice-single?block=10" \
+curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
   -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
-  -d instruction="Does the image contain any sexual content?" \
+  -d instruction="Does the image contain violent content?" \
   -d attachments_type="image" \
   -d attachments[0]="http://i.imgur.com/qRWH5.jpg" \
   -d choices_type="text" \
-  -d choices[0]="yes" \
-  -d choices[1]="no" \
-  -d choices[2]="maybe"
+  -d choices[0]="no violence" \
+  -d choices[1]="mild violence" \
+  -d choices[2]="intense violence"
 ```
 
 ```javascript
@@ -281,12 +295,12 @@ var crunchable = require("crunchable")(
   "test_j3tepqvrYIaYsBQ6EzlHeABI"
 );
 
-crunchable.requestChoiceSingle({
-  instruction: "Does the image contain any sexual content?",
+crunchable.requestMultipleChoice({
+  instruction: "Does the image contain violent content?",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/qRWH5.jpg" ],
   choices_type: "text",
-  choices: [ "yes", "no", "maybe" ]
+  choices: [ "no violence", "mild violence", "intense violence" ]
 }, 10, function (err, res) {
   // handle response here
 });
@@ -298,21 +312,21 @@ crunchable.requestChoiceSingle({
 {
   "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
   "status": "complete",
-  "response": "yes",
-  "type": "choice-single",
-  "instruction": "Does the image contain any sexual content?",
+  "response": "no violence",
+  "type": "multiple-choice",
+  "instruction": "Does the image contain violent content?",
   "attachments_type": "image",
   "attachments": [ "http://i.imgur.com/qRWH5.jpg" ],
   "choices_type": "text",
-  "choices": [ "yes", "no", "maybe" ]
+  "choices": [ "no violence", "mild violence", "intense violence" ]
 }
 ```
 
-Give a question with multiple potential answers and receive a single answer from the list as a response.
+Give a question with multiple potential answers and receive answers from the list as a response. You can limit to a single answer or multiple answers.
 
 ### HTTP Request
 
-`POST /v1/requests/choice-single`
+`POST /v1/requests/multiple-choice`
 
 ### Query Parameters
 
@@ -329,6 +343,8 @@ attachments_type *(optional)* | string | The type of the array elements in the `
 attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
 choices_type *(optional)* | string | The type of the array elements in the `choices` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
 choices | string[] | An array of strings describing the potential choices.
+min_answers *(optional)* | number | Minimum number of allowed answers. Defaults to `1`.
+max_answers *(optional)* | number | Maximum number of allowed answers. Defaults to `1`. Give `0` for no limit.
 
 ### Return Value
 
@@ -339,137 +355,17 @@ Name | Type | Description
 id | string | A unique ID for this request, used to identify this request in future calls.
 status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
 response *(optional)* | string | The response for the completed request (if available). One of of the values from the `choices` array.
-type | string | The request type, always `choice-single`.
+type | string | The request type, always `multiple-choice`.
  | |
 instruction | string | *provided when making the request*
 attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
 choices_type | string | *provided when making the request*
 choices | string[] | *provided when making the request*
+min_answers | number | *provided when making the request*
+max_answers | number | *provided when making the request*
 
-## Multiple answers
-
-```http
-POST /v1/requests/choice-multiple?block=10 HTTP/1.1
-Host: api.crunchable.io
-Content-Type: application/json
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
-
-{
-  "instruction": "Select all the images of dogs",
-  "choices_type": "image",
-  "choices": [
-    "http://i.imgur.com/pIEqBNj.jpg",
-    "http://i.imgur.com/TKHgz9H.jpg",
-    "http://i.imgur.com/7lLSWqY.jpg",
-    "http://i.imgur.com/KwA3PwU.jpg",
-    "http://i.imgur.com/3p4o2y4.jpg"
-  ]
-}
-```
-
-```shell
-curl "https://api.crunchable.io/v1/requests/choice-multiple?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
-  -d instruction="Select all the images of dogs" \
-  -d choices_type="image" \
-  -d choices[0]="http://i.imgur.com/pIEqBNj.jpg", \
-  -d choices[1]="http://i.imgur.com/TKHgz9H.jpg", \
-  -d choices[2]="http://i.imgur.com/7lLSWqY.jpg", \
-  -d choices[3]="http://i.imgur.com/KwA3PwU.jpg", \
-  -d choices[4]="http://i.imgur.com/3p4o2y4.jpg"
-```
-
-```javascript
-var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
-);
-
-crunchable.requestChoiceMultiple({
-  instruction: "Select all the images of dogs",
-  choices_type: "image",
-  choices: [
-    "http://i.imgur.com/pIEqBNj.jpg",
-    "http://i.imgur.com/TKHgz9H.jpg",
-    "http://i.imgur.com/7lLSWqY.jpg",
-    "http://i.imgur.com/KwA3PwU.jpg",
-    "http://i.imgur.com/3p4o2y4.jpg"
-  ]
-}, 10, function (err, res) {
-  // handle response here
-});
-```
-
-> Example Response (JSON)
-
-```json
-{
-  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
-  "status": "complete",
-  "response": [
-    "http://i.imgur.com/pIEqBNj.jpg",
-    "http://i.imgur.com/7lLSWqY.jpg",
-    "http://i.imgur.com/KwA3PwU.jpg"
-  ],
-  "type": "choice-multiple",
-  "instruction": "Select all the images of dogs",
-  "choices_type": "image",
-  "choices": [
-    "http://i.imgur.com/pIEqBNj.jpg",
-    "http://i.imgur.com/TKHgz9H.jpg",
-    "http://i.imgur.com/7lLSWqY.jpg",
-    "http://i.imgur.com/KwA3PwU.jpg",
-    "http://i.imgur.com/3p4o2y4.jpg"
-  ]
-}
-```
-
-Give a question with multiple potential answers and receive multiple answers from the list as a response.
-
-### HTTP Request
-
-`POST /v1/requests/choice-multiple`
-
-### Query Parameters
-
-Name | Default | Description
---------- | ------- | -----------
-block | 0 | Time in seconds the request should block for a response. If the request isn't completed before this timeout, a pending result is returned.
-
-### Request Body Parameters
-
-Name | Type | Description
---------- | ------- | -----------
-instruction | string | Sentence explaining in natural language what exactly is requested in this call.
-attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
-attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
-choices_type *(optional)* | string | The type of the array elements in the `choices` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
-choices | string[] | An array of strings describing the potential choices.
-min *(optional)* | number | Minimum number of allowed answers Defaults to 1.
-max *(optional)* | number | Maximum number of allowed answers. Defaults to the total number of choices.
-
-### Return Value
-
-A `Request` object in a pending or completed state.
-
-Name | Type | Description
---------- | ------- | -----------
-id | string | A unique ID for this request, used to identify this request in future calls.
-status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
-response *(optional)* | string[] | The response for the completed request (if available). Array of values from the `choices` array.
-type | string | The request type, always `choice-multiple`.
- | |
-instruction | string | *provided when making the request*
-attachments_type | string | *provided when making the request*
-attachments | string[] | *provided when making the request*
-choices_type | string | *provided when making the request*
-choices | string[] | *provided when making the request*
-min | number | *provided when making the request*
-max | number | *provided when making the request*
-
-# Free Form
-
-## Free text
+# Free Text
 
 ```http
 POST /v1/requests/free-text?block=10 HTTP/1.1
@@ -556,6 +452,116 @@ instruction | string | *provided when making the request*
 attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
 validation | string | *provided when making the request*
+
+# Rating
+
+```http
+POST /v1/requests/rating?block=10 HTTP/1.1
+Host: api.crunchable.io
+Content-Type: application/json
+Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+
+{
+  "instruction": "Estimate the age of the person in the image",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/GWxg2wC.jpg" ],
+  "rating_min": 0,
+  "rating_max": 100,
+  "rating_step": 5
+}
+```
+
+```shell
+curl "https://api.crunchable.io/v1/requests/rating?block=10" \
+  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -d instruction="Estimate the age of the person in the image" \
+  -d attachments_type="image" \
+  -d attachments[0]="http://i.imgur.com/GWxg2wC.jpg" \
+  -d rating_min=0 \
+  -d rating_max=100 \
+  -d rating_min=5
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+);
+
+crunchable.requestRating({
+  instruction: "Estimate the age of the person in the image",
+  attachments_type: "image",
+  attachments: [ "http://i.imgur.com/GWxg2wC.jpg" ],
+  rating_min: 0,
+  rating_max: 100,
+  rating_step: 5
+}, 10, function (err, res) {
+  // handle response here
+});
+```
+
+> Example Response (JSON)
+
+```json
+{
+  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
+  "status": "complete",
+  "response": 35,
+  "type": "rating",
+  "instruction": "Estimate the age of the person in the image",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/GWxg2wC.jpg" ],
+  "rating_min": 0,
+  "rating_max": 100,
+  "rating_step": 5
+}
+```
+
+Give a numeric sliding scale and request a rating on it.
+
+### HTTP Request
+
+`POST /v1/requests/rating`
+
+### Query Parameters
+
+Name | Default | Description
+--------- | ------- | -----------
+block | 0 | Time in seconds the request should block for a response. If the request isn't completed before this timeout, a pending result is returned.
+
+### Request Body Parameters
+
+Name | Type | Description
+--------- | ------- | -----------
+instruction | string | Sentence explaining in natural language what exactly is requested in this call.
+attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
+attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+rating_min *(optional)* | number | The minimum rating on the scale. Defaults to `0`.
+rating_max *(optional)* | number | The minimum rating on the scale. Defaults to `100`.
+rating_step *(optional)* | number | The rating step on the scale (granularity). Defaults to `1`.
+label_min *(optional)* | string | The label of the minimum edge of the scale.
+label_max *(optional)* | string | The label of the maximum edge of the scale.
+
+### Return Value
+
+A `Request` object in a pending or completed state.
+
+Name | Type | Description
+--------- | ------- | -----------
+id | string | A unique ID for this request, used to identify this request in future calls.
+status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
+response *(optional)* | number | The response for the completed request (if available). A numeric rating on the scale.
+type | string | The request type, always `rating`.
+ | |
+instruction | string | *provided when making the request*
+attachments_type | string | *provided when making the request*
+attachments | string[] | *provided when making the request*
+rating_min | number | *provided when making the request*
+rating_max | number | *provided when making the request*
+rating_step | number | *provided when making the request*
+label_min | string | *provided when making the request*
+label_max | string | *provided when making the request*
+
+# Media
 
 ## Image
 
@@ -799,6 +805,225 @@ instruction | string | *provided when making the request*
 attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
 
+# Annotations
+
+## Simple annotations
+
+```http
+POST /v1/requests/annotations?block=10 HTTP/1.1
+Host: api.crunchable.io
+Content-Type: application/json
+Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+
+{
+  "instruction": "Mark the fashion accessories in the image",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/piKjc.jpg" ]
+}
+```
+
+```shell
+curl "https://api.crunchable.io/v1/requests/annotations?block=10" \
+  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -d instruction="Mark the fashion accessories in the image" \
+  -d attachments_type="image" \
+  -d attachments[0]="http://i.imgur.com/piKjc.jpg"
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+);
+
+crunchable.requestAnnotations({
+  instruction: "Mark the fashion accessories in the image",
+  attachments_type: "image",
+  attachments: [ "http://i.imgur.com/piKjc.jpg" ]
+}, 10, function (err, res) {
+  // handle response here
+});
+```
+
+> Example Response (JSON)
+
+```json
+{
+  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
+  "status": "complete",
+  "response": [
+    { "x": 123, "y": 207 },
+    { "x": 321, "y": 523 },
+    { "x": 73, "y": 298 }
+  ],
+  "type": "annotations",
+  "instruction": "Mark the fashion accessories in the image",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/piKjc.jpg" ]
+}
+```
+
+Give an attachment and request annotations over its content. This can be used to mark points of interest in an image, text, video, audio or website.
+
+### HTTP Request
+
+`POST /v1/requests/annotations`
+
+### Query Parameters
+
+Name | Default | Description
+--------- | ------- | -----------
+block | 0 | Time in seconds the request should block for a response. If the request isn't completed before this timeout, a pending result is returned.
+
+### Request Body Parameters
+
+Name | Type | Description
+--------- | ------- | -----------
+instruction | string | Sentence explaining in natural language what exactly is requested in this call.
+attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
+attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+min_annotations *(optional)* | number | Minimum number of requested annotations. Defaults to `1`.
+max_annotations *(optional)* | number | Maximum number of requested answers.
+
+### Return Value
+
+A `Request` object in a pending or completed state.
+
+Name | Type | Description
+--------- | ------- | -----------
+id | string | A unique ID for this request, used to identify this request in future calls.
+status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
+response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`t` - time offset in seconds (for video, audio)
+type | string | The request type, always `annotations`.
+ | |
+instruction | string | *provided when making the request*
+attachments_type | string | *provided when making the request*
+attachments | string[] | *provided when making the request*
+min_annotations | number | *provided when making the request*
+max_annotations | number | *provided when making the request*
+
+## Annotations with request
+
+```http
+POST /v1/requests/annotations-with-request?block=10 HTTP/1.1
+Host: api.crunchable.io
+Content-Type: application/json
+Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+
+{
+  "instruction": "Mark all the cats in the image",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/2hOoEp1.jpg" ],
+  "request_type": "multiple-choice",
+  "request": {
+    "instruction": "What color is the cat",
+    "choices_type": "text",
+    "choices": [ "gray", "white", "black", "ginger" ]
+  }
+}
+```
+
+```shell
+curl "https://api.crunchable.io/v1/requests/annotations-with-request?block=10" \
+  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -d instruction="Mark all the cats in the image" \
+  -d attachments_type="image" \
+  -d attachments[0]="http://i.imgur.com/2hOoEp1.jpg" \
+  -d request_type="multiple-choice" \
+  -d request[instruction]="What color is the cat" \
+  -d request[choices_type]="text" \
+  -d request[choices][0]="gray" \
+  -d request[choices][1]="white" \
+  -d request[choices][2]="black" \
+  -d request[choices][3]="ginger"
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+);
+
+crunchable.requestAnnotationsWithRequest({
+  instruction: "Mark all the cats in the image",
+  attachments_type: "image",
+  attachments: [ "http://i.imgur.com/2hOoEp1.jpg" ],
+  request_type: "multiple-choice",
+  request: {
+    instruction: "What color is the cat",
+    choices_type: "text",
+    choices: [ "gray", "white", "black", "ginger" ]
+  }
+}, 10, function (err, res) {
+  // handle response here
+});
+```
+
+> Example Response (JSON)
+
+```json
+{
+  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
+  "status": "complete",
+  "response": [
+    { "x": 123, "y": 207, "response": "gray" },
+    { "x": 321, "y": 523, "response": "ginger" },
+    { "x": 73, "y": 298, "response": "gray" }
+  ],
+  "type": "annotations-with-request",
+  "instruction": "Mark all the cats in the image",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/2hOoEp1.jpg" ],
+  "request_type": "multiple-choice",
+  "request": {
+    "instruction": "What color is the cat",
+    "choices_type": "text",
+    "choices": [ "gray", "white", "black", "ginger" ]
+  }
+}
+```
+
+Give an attachment and request annotations over its content. For each annotation add a request (multiple choice, free text). This can be used to mark points of interest in an image, text, video, audio or website and then answer a question per point.
+
+### HTTP Request
+
+`POST /v1/requests/annotations-with-request`
+
+### Query Parameters
+
+Name | Default | Description
+--------- | ------- | -----------
+block | 0 | Time in seconds the request should block for a response. If the request isn't completed before this timeout, a pending result is returned.
+
+### Request Body Parameters
+
+Name | Type | Description
+--------- | ------- | -----------
+instruction | string | Sentence explaining in natural language what exactly is requested in this call.
+attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
+attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+min_annotations *(optional)* | number | Minimum number of requested annotations. Defaults to `1`.
+max_annotations *(optional)* | number | Maximum number of requested answers.
+request_type | string | The request type that is requested per annotation. Potential values:<br>`multiple-choice` - see [multiple choice](#multiple-choice) request<br>`free-text` - see [free text](#free-text) request<br>`rating` - see [rating](#rating) request
+request | object | The request per annotation. A `Request` object containing the actual request body with parameters like `instruction`.
+
+### Return Value
+
+A `Request` object in a pending or completed state.
+
+Name | Type | Description
+--------- | ------- | -----------
+id | string | A unique ID for this request, used to identify this request in future calls.
+status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
+response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`t` - time offset in seconds (for video, audio)<br>`response` - the response per annotation
+type | string | The request type, always `annotations-with-request`.
+ | |
+instruction | string | *provided when making the request*
+attachments_type | string | *provided when making the request*
+attachments | string[] | *provided when making the request*
+min_annotations | number | *provided when making the request*
+max_annotations | number | *provided when making the request*
+request_type | string | *provided when making the request*
+request | object | *provided when making the request*
+
 <h1 id="toc-section">Management</h1>
 
 # Requests
@@ -832,13 +1057,13 @@ crunchable.getRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158', 10, function (err,
 {
   "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
   "status": "complete",
-  "response": "yes",
-  "type": "choice-single",
-  "instruction": "Does the image contain any sexual content?",
+  "response": "no violence",
+  "type": "multiple-choice",
+  "instruction": "Does the image contain violent content?",
   "attachments_type": "image",
   "attachments": [ "http://i.imgur.com/qRWH5.jpg" ],
   "choices_type": "text",
-  "choices": [ "yes", "no", "maybe" ]
+  "choices": [ "no violence", "mild violence", "intense violence" ]
 }
 ```
 
