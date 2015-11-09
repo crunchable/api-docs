@@ -24,9 +24,70 @@ Welcome to the Crunchable.io API!
 
 Every API call must be authenticated by including your secret API key in the request. You can manage your API keys in the [Dashboard](https://crunchable.io/dashboard).
 
-Authentication to the API is performed via [HTTP Basic Auth](http://en.wikipedia.org/wiki/Basic_access_authentication). Provide your API key as the basic auth username value. You do not need to provide a password.
+Authentication of an API call is performed using HTTP headers. Provide your API key as a custom HTTP header named `X-Crunch-API-Key`. You can keep your key secure by making API calls over SSL (HTTPS) as this will encrypt the entire request, headers included.
 
 A sample test API key is included in all the examples on this page, so you can test any example right away. To test requests using your account, replace the sample API key with your actual API key.
+
+# Staging Environment
+
+> This call runs on staging because the API key starts with `test_`
+
+```http
+POST /v1/requests/multiple-choice?block=10 HTTP/1.1
+Host: api.crunchable.io
+Content-Type: application/json
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+
+{
+  "instruction": "Does the image contain violent content?",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/qRWH5.jpg" ],
+  "choices_type": "text",
+  "choices": [ "no violence", "mild violence", "intense violence" ]
+}
+```
+
+```shell
+curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
+  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -d instruction="Does the image contain violent content?" \
+  -d attachments_type="image" \
+  -d attachments[]="http://i.imgur.com/qRWH5.jpg" \
+  -d choices_type="text" \
+  -d choices[]="no violence" \
+  -d choices[]="mild violence" \
+  -d choices[]="intense violence"
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+);
+
+crunchable.requestMultipleChoice({
+  instruction: "Does the image contain violent content?",
+  attachments_type: "image",
+  attachments: [ "http://i.imgur.com/qRWH5.jpg" ],
+  choices_type: "text",
+  choices: [ "no violence", "mild violence", "intense violence" ]
+}, 10, function (err, res) {
+  // handle response here
+});
+```
+
+When implementing a system using the API, it is very useful to be able to test the system during development without performing real API calls.
+
+<aside class="warning">
+Real API calls might provide responses after delays and might require payment. They aren't recommended for testing purposes!
+</aside>
+
+For testing purposes, you can use all API in a *staging environment*. In staging:
+
+* API calls reply immediately without delays
+* API calls are completely free without any limitation
+* Responses for requests are staged so you shouldn't actually rely on them
+
+To make your calls run on staging, use the **Test API Key** available in the [Dashboard](https://crunchable.io/dashboard). Notice that staging API keys always have the prefix `test_` for easy identification.
 
 # Making Requests
 
@@ -51,7 +112,7 @@ When making a request, the most important parameter you need to provide is `inst
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158 HTTP/1.1
 Host: api.crunchable.io
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 ```
 
 ```shell
@@ -119,7 +180,7 @@ See best practices below for recommendations on how often to make recurring call
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158 HTTP/1.1
 Host: api.crunchable.io
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 ```
 
 ```shell
@@ -144,7 +205,7 @@ crunchable.getRequest(
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30 HTTP/1.1
 Host: api.crunchable.io
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 ```
 
 ```shell
@@ -186,80 +247,7 @@ Let's assume you are running a production system with high load and using *non-b
 
 The recommended practice is to double your delay time between calls. Let's assume you wait 15 seconds between the first and second calls. If the second call is still *pending*, wait 30 seconds before making the third call. If the third call is still *pending*, wait 60 seconds before making the fourth call... and so forth.
 
-# Staging Environment
-
-> This call runs on staging because the API key starts with `test_`
-
-```http
-POST /v1/requests/multiple-choice?block=10 HTTP/1.1
-Host: api.crunchable.io
-Content-Type: application/json
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
-
-{
-  "instruction": "Does the image contain violent content?",
-  "attachments_type": "image",
-  "attachments": [ "http://i.imgur.com/qRWH5.jpg" ],
-  "choices_type": "text",
-  "choices": [ "no violence", "mild violence", "intense violence" ]
-}
-```
-
-```shell
-curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
-  -d instruction="Does the image contain violent content?" \
-  -d attachments_type="image" \
-  -d attachments[0]="http://i.imgur.com/qRWH5.jpg" \
-  -d choices_type="text" \
-  -d choices[0]="no violence" \
-  -d choices[1]="mild violence" \
-  -d choices[2]="intense violence"
-```
-
-```javascript
-var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
-);
-
-crunchable.requestMultipleChoice({
-  instruction: "Does the image contain violent content?",
-  attachments_type: "image",
-  attachments: [ "http://i.imgur.com/qRWH5.jpg" ],
-  choices_type: "text",
-  choices: [ "no violence", "mild violence", "intense violence" ]
-}, 10, function (err, res) {
-  // handle response here
-});
-```
-
-When implementing a system using the API, it is very useful to be able to test the system during development without performing real API calls.
-
-<aside class="notice">
-Real API calls might provide responses after delays and might require payment. They aren't recommended for testing purposes.
-</aside>
-
-For testing purposes, you can use all API in a *staging environment*. In staging:
-
-* API calls reply immediately without delays
-* API calls are completely free without any limitation
-* Responses for requests are staged so you shouldn't actually rely on them
-
-To make your calls run on staging, use the **Test API Key** available in the [Dashboard](https://crunchable.io/dashboard). Notice that staging API keys always have the prefix `test_` for easy identification.
-
 <h1 id="toc-section">Requests</h1>
-
-A request is a question made to the API server in the effort of receiving a response containing an answer to the question. There are several types of requests:
-
-* [**Multiple Choice**](#multiple-choice) - You provide a set of pre-defined potential answers to the question and the response must be among this list.
-
-* [**Free Text**](#free-text) - The response is free text - just like asking a question in a sentence and receiving a sentence in return.
-
-* [**Rating**](#rating) - You provide a numeric sliding scale and the response is a numeric rating on this scale.
-
-* [**Media**](#media) - The response is an image, video or audio file according to the request.
-
-* [**Annotations**](#annotations) - You provide a resource such as an image and request annotations over its content (marked points of interest).
 
 # Multiple Choice
 
@@ -267,7 +255,7 @@ A request is a question made to the API server in the effort of receiving a resp
 POST /v1/requests/multiple-choice?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 {
   "instruction": "Does the image contain violent content?",
@@ -280,14 +268,14 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
   -d instruction="Does the image contain violent content?" \
   -d attachments_type="image" \
-  -d attachments[0]="http://i.imgur.com/qRWH5.jpg" \
+  -d attachments[]="http://i.imgur.com/qRWH5.jpg" \
   -d choices_type="text" \
-  -d choices[0]="no violence" \
-  -d choices[1]="mild violence" \
-  -d choices[2]="intense violence"
+  -d choices[]="no violence" \
+  -d choices[]="mild violence" \
+  -d choices[]="intense violence"
 ```
 
 ```javascript
@@ -312,7 +300,7 @@ crunchable.requestMultipleChoice({
 {
   "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
   "status": "complete",
-  "response": "no violence",
+  "response": [ "no violence" ],
   "type": "multiple-choice",
   "instruction": "Does the image contain violent content?",
   "attachments_type": "image",
@@ -354,7 +342,7 @@ Name | Type | Description
 --------- | ------- | -----------
 id | string | A unique ID for this request, used to identify this request in future calls.
 status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
-response *(optional)* | string | The response for the completed request (if available). One of of the values from the `choices` array.
+response *(optional)* | string[] | The response for the completed request (if available). An array of strings containing the chosen values from the `choices` array.
 type | string | The request type, always `multiple-choice`.
  | |
 instruction | string | *provided when making the request*
@@ -371,7 +359,7 @@ max_answers | number | *provided when making the request*
 POST /v1/requests/free-text?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 {
   "instruction": "Translate from Spanish to English",
@@ -382,10 +370,10 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/free-text?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
   -d instruction="Translate from Spanish to English" \
   -d attachments_type="text" \
-  -d attachments[0]="hola mundo"
+  -d attachments[]="hola mundo"
 ```
 
 ```javascript
@@ -459,7 +447,7 @@ validation | string | *provided when making the request*
 POST /v1/requests/rating?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 {
   "instruction": "Estimate the age of the person in the image",
@@ -473,10 +461,10 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/rating?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
   -d instruction="Estimate the age of the person in the image" \
   -d attachments_type="image" \
-  -d attachments[0]="http://i.imgur.com/GWxg2wC.jpg" \
+  -d attachments[]="http://i.imgur.com/GWxg2wC.jpg" \
   -d rating_min=0 \
   -d rating_max=100 \
   -d rating_min=5
@@ -569,7 +557,7 @@ label_max | string | *provided when making the request*
 POST /v1/requests/image?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 {
   "instruction": "A picture of a birthday cake"
@@ -578,7 +566,7 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/image?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
   -d instruction="A picture of a birthday cake"
 ```
 
@@ -647,7 +635,7 @@ attachments | string[] | *provided when making the request*
 POST /v1/requests/video?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 {
   "instruction": "A video of a cat walking"
@@ -656,7 +644,7 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/video?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
   -d instruction="A video of a cat walking"
 ```
 
@@ -725,7 +713,7 @@ attachments | string[] | *provided when making the request*
 POST /v1/requests/audio?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 {
   "instruction": "Pronounce the word",
@@ -736,10 +724,10 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/audio?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
   -d instruction="Pronounce the word" \
   -d attachments_type="text" \
-  -d attachments[0]="encyclopedia"
+  -d attachments[]="encyclopedia"
 ```
 
 ```javascript
@@ -763,7 +751,7 @@ crunchable.requestAudio({
   "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
   "status": "complete",
   "response": "http://static.sfdict.com/staticrep/dictaudio/E01/E0165900.mp3",
-  "type": "video",
+  "type": "audio",
   "instruction": "Pronounce the word",
   "attachments_type": "text",
   "attachments": [ "encyclopedia" ]
@@ -813,7 +801,7 @@ attachments | string[] | *provided when making the request*
 POST /v1/requests/annotations?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 {
   "instruction": "Mark the fashion accessories in the image",
@@ -824,10 +812,10 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/annotations?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
   -d instruction="Mark the fashion accessories in the image" \
   -d attachments_type="image" \
-  -d attachments[0]="http://i.imgur.com/piKjc.jpg"
+  -d attachments[]="http://i.imgur.com/piKjc.jpg"
 ```
 
 ```javascript
@@ -892,7 +880,7 @@ Name | Type | Description
 --------- | ------- | -----------
 id | string | A unique ID for this request, used to identify this request in future calls.
 status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
-response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`t` - time offset in seconds (for video, audio)
+response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`t` - time offset in seconds (for video, audio)<br>`attachment_index` - when more than one provided
 type | string | The request type, always `annotations`.
  | |
 instruction | string | *provided when making the request*
@@ -901,20 +889,19 @@ attachments | string[] | *provided when making the request*
 min_annotations | number | *provided when making the request*
 max_annotations | number | *provided when making the request*
 
-## Annotations with request
+## Annotations with multiple choice
 
 ```http
-POST /v1/requests/annotations-with-request?block=10 HTTP/1.1
+POST /v1/requests/annotations-with-multiple-choice?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 {
   "instruction": "Mark all the cats in the image",
   "attachments_type": "image",
   "attachments": [ "http://i.imgur.com/2hOoEp1.jpg" ],
-  "request_type": "multiple-choice",
-  "request": {
+  "per_annotation": {
     "instruction": "What color is the cat",
     "choices_type": "text",
     "choices": [ "gray", "white", "black", "ginger" ]
@@ -923,18 +910,17 @@ Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/annotations-with-request?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:" \
+curl "https://api.crunchable.io/v1/requests/annotations-with-multiple-choice?block=10" \
+  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
   -d instruction="Mark all the cats in the image" \
   -d attachments_type="image" \
-  -d attachments[0]="http://i.imgur.com/2hOoEp1.jpg" \
-  -d request_type="multiple-choice" \
-  -d request[instruction]="What color is the cat" \
-  -d request[choices_type]="text" \
-  -d request[choices][0]="gray" \
-  -d request[choices][1]="white" \
-  -d request[choices][2]="black" \
-  -d request[choices][3]="ginger"
+  -d attachments[]="http://i.imgur.com/2hOoEp1.jpg" \
+  -d per_annotation[instruction]="What color is the cat" \
+  -d per_annotation[choices_type]="text" \
+  -d per_annotation[choices][]="gray" \
+  -d per_annotation[choices][]="white" \
+  -d per_annotation[choices][]="black" \
+  -d per_annotation[choices][]="ginger"
 ```
 
 ```javascript
@@ -942,12 +928,11 @@ var crunchable = require("crunchable")(
   "test_j3tepqvrYIaYsBQ6EzlHeABI"
 );
 
-crunchable.requestAnnotationsWithRequest({
+crunchable.requestAnnotationsWithMultipleChoice({
   instruction: "Mark all the cats in the image",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/2hOoEp1.jpg" ],
-  request_type: "multiple-choice",
-  request: {
+  per_annotation: {
     instruction: "What color is the cat",
     choices_type: "text",
     choices: [ "gray", "white", "black", "ginger" ]
@@ -964,16 +949,15 @@ crunchable.requestAnnotationsWithRequest({
   "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
   "status": "complete",
   "response": [
-    { "x": 123, "y": 207, "response": "gray" },
-    { "x": 321, "y": 523, "response": "ginger" },
-    { "x": 73, "y": 298, "response": "gray" }
+    { "x": 123, "y": 207, "response": [ "gray" ] },
+    { "x": 321, "y": 523, "response": [ "ginger" ] },
+    { "x": 73, "y": 298, "response": [ "gray" ] }
   ],
-  "type": "annotations-with-request",
+  "type": "annotations-with-multiple-choice",
   "instruction": "Mark all the cats in the image",
   "attachments_type": "image",
   "attachments": [ "http://i.imgur.com/2hOoEp1.jpg" ],
-  "request_type": "multiple-choice",
-  "request": {
+  "per_annotation": {
     "instruction": "What color is the cat",
     "choices_type": "text",
     "choices": [ "gray", "white", "black", "ginger" ]
@@ -981,11 +965,11 @@ crunchable.requestAnnotationsWithRequest({
 }
 ```
 
-Give an attachment and request annotations over its content. For each annotation add a request (multiple choice, free text). This can be used to mark points of interest in an image, text, video, audio or website and then answer a question per point.
+Give an attachment and request annotations over its content. For each annotation add a multiple choice request. This can be used to mark points of interest in an image, text, video, audio or website and then answer a question per each point marked.
 
 ### HTTP Request
 
-`POST /v1/requests/annotations-with-request`
+`POST /v1/requests/annotations-with-multiple-choice`
 
 ### Query Parameters
 
@@ -1002,8 +986,7 @@ attachments_type *(optional)* | string | The type of the array elements in the `
 attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
 min_annotations *(optional)* | number | Minimum number of requested annotations. Defaults to `1`.
 max_annotations *(optional)* | number | Maximum number of requested answers.
-request_type | string | The request type that is requested per annotation. Potential values:<br>`multiple-choice` - see [multiple choice](#multiple-choice) request<br>`free-text` - see [free text](#free-text) request<br>`rating` - see [rating](#rating) request
-request | object | The request per annotation. A `Request` object containing the actual request body with parameters like `instruction`.
+per_annotation | object | The request per annotation. A `Request` object containing:<br> `instruction` - natural language request<br>`choices_type` - see [multiple choice](#multiple-choice) request params<br>`choices` - see [multiple choice](#multiple-choice) request params
 
 ### Return Value
 
@@ -1014,15 +997,242 @@ Name | Type | Description
 id | string | A unique ID for this request, used to identify this request in future calls.
 status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
 response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`t` - time offset in seconds (for video, audio)<br>`response` - the response per annotation
-type | string | The request type, always `annotations-with-request`.
+type | string | The request type, always `annotations-with-multiple-choice`.
  | |
 instruction | string | *provided when making the request*
 attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
 min_annotations | number | *provided when making the request*
 max_annotations | number | *provided when making the request*
-request_type | string | *provided when making the request*
-request | object | *provided when making the request*
+per_annotation | object | *provided when making the request*
+
+## Annotations with free text
+
+```http
+POST /v1/requests/annotations-with-free-text?block=10 HTTP/1.1
+Host: api.crunchable.io
+Content-Type: application/json
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+
+{
+  "instruction": "Mark all the cats in the image",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/2hOoEp1.jpg" ],
+  "per_annotation": {
+    "instruction": "What's the facial expression of the cat?"
+  }
+}
+```
+
+```shell
+curl "https://api.crunchable.io/v1/requests/annotations-with-free-text?block=10" \
+  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -d instruction="Mark all the cats in the image" \
+  -d attachments_type="image" \
+  -d attachments[]="http://i.imgur.com/2hOoEp1.jpg" \
+  -d per_annotation[instruction]="What's the facial expression of the cat?"
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+);
+
+crunchable.requestAnnotationsWithFreeText({
+  instruction: "Mark all the cats in the image",
+  attachments_type: "image",
+  attachments: [ "http://i.imgur.com/2hOoEp1.jpg" ],
+  per_annotation: {
+    instruction: "What's the facial expression of the cat?"
+  }
+}, 10, function (err, res) {
+  // handle response here
+});
+```
+
+> Example Response (JSON)
+
+```json
+{
+  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
+  "status": "complete",
+  "response": [
+    { "x": 123, "y": 207, "response": "grumpy" },
+    { "x": 321, "y": 523, "response": "curious" },
+    { "x": 73, "y": 298, "response": "stunned" }
+  ],
+  "type": "annotations-with-free-text",
+  "instruction": "Mark all the cats in the image",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/2hOoEp1.jpg" ],
+  "per_annotation": {
+    "instruction": "What's the facial expression of the cat?"
+  }
+}
+```
+
+Give an attachment and request annotations over its content. For each annotation ask a free text question. This can be used to mark points of interest in an image, text, video, audio or website and then answer a question per each point marked.
+
+### HTTP Request
+
+`POST /v1/requests/annotations-with-free-text`
+
+### Query Parameters
+
+Name | Default | Description
+--------- | ------- | -----------
+block | 0 | Time in seconds the request should block for a response. If the request isn't completed before this timeout, a pending result is returned.
+
+### Request Body Parameters
+
+Name | Type | Description
+--------- | ------- | -----------
+instruction | string | Sentence explaining in natural language what exactly is requested in this call.
+attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
+attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+min_annotations *(optional)* | number | Minimum number of requested annotations. Defaults to `1`.
+max_annotations *(optional)* | number | Maximum number of requested answers.
+per_annotation | object | The request per annotation. A `Request` object containing:<br> `instruction` - natural language request<br>`validation` - see [free text](#free-text) request params
+
+### Return Value
+
+A `Request` object in a pending or completed state.
+
+Name | Type | Description
+--------- | ------- | -----------
+id | string | A unique ID for this request, used to identify this request in future calls.
+status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
+response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`t` - time offset in seconds (for video, audio)<br>`response` - the response per annotation
+type | string | The request type, always `annotations-with-free-text`.
+ | |
+instruction | string | *provided when making the request*
+attachments_type | string | *provided when making the request*
+attachments | string[] | *provided when making the request*
+min_annotations | number | *provided when making the request*
+max_annotations | number | *provided when making the request*
+per_annotation | object | *provided when making the request*
+
+## Annotations with rating
+
+```http
+POST /v1/requests/annotations-with-rating?block=10 HTTP/1.1
+Host: api.crunchable.io
+Content-Type: application/json
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+
+{
+  "instruction": "Mark all the cats in the image",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/2hOoEp1.jpg" ],
+  "per_annotation": {
+    "instruction": "How aggressive is the cat?",
+    "rating_min": 0,
+    "rating_max": 10,
+    "label_min": "not aggressive",
+    "label_max": "very aggressive"
+  }
+}
+```
+
+```shell
+curl "https://api.crunchable.io/v1/requests/annotations-with-rating?block=10" \
+  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -d instruction="Mark all the cats in the image" \
+  -d attachments_type="image" \
+  -d attachments[]="http://i.imgur.com/2hOoEp1.jpg" \
+  -d per_annotation[instruction]="How aggressive is the cat?" \
+  -d per_annotation[rating_min]=0 \
+  -d per_annotation[rating_max]=10 \
+  -d per_annotation[label_min]="not aggressive" \
+  -d per_annotation[label_max]="very aggressive"
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+);
+
+crunchable.requestAnnotationsWithRating({
+  instruction: "Mark all the cats in the image",
+  attachments_type: "image",
+  attachments: [ "http://i.imgur.com/2hOoEp1.jpg" ],
+  per_annotation: {
+    instruction: "How aggressive is the cat?",
+    rating_min: 0,
+    rating_max: 10,
+    label_min: "not aggressive",
+    label_max: "very aggressive"
+  }
+}, 10, function (err, res) {
+  // handle response here
+});
+```
+
+> Example Response (JSON)
+
+```json
+{
+  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
+  "status": "complete",
+  "response": [
+    { "x": 123, "y": 207, "response": 6 },
+    { "x": 321, "y": 523, "response": 2 },
+    { "x": 73, "y": 298, "response": 0 }
+  ],
+  "type": "annotations-with-rating",
+  "instruction": "Mark all the cats in the image",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/2hOoEp1.jpg" ],
+  "per_annotation": {
+    "instruction": "How aggressive is the cat?",
+    "rating_min": 0,
+    "rating_max": 10,
+    "label_min": "not aggressive",
+    "label_max": "very aggressive"
+  }
+}
+```
+
+Give an attachment and request annotations over its content. For each annotation add a rating request (choose a value on a numeric sliding scale). This can be used to mark points of interest in an image, text, video, audio or website and then answer a question per each point marked.
+
+### HTTP Request
+
+`POST /v1/requests/annotations-with-rating`
+
+### Query Parameters
+
+Name | Default | Description
+--------- | ------- | -----------
+block | 0 | Time in seconds the request should block for a response. If the request isn't completed before this timeout, a pending result is returned.
+
+### Request Body Parameters
+
+Name | Type | Description
+--------- | ------- | -----------
+instruction | string | Sentence explaining in natural language what exactly is requested in this call.
+attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
+attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+min_annotations *(optional)* | number | Minimum number of requested annotations. Defaults to `1`.
+max_annotations *(optional)* | number | Maximum number of requested answers.
+per_annotation | object | The request per annotation. A `Request` object containing:<br> `instruction` - natural language request<br>`rating_min` - see [rating](#rating) request params<br>`rating_max` - see [rating](#rating) request params<br>`rating_step` - see [rating](#rating) request params<br>`label_min` - see [rating](#rating) request params<br>`label_max` - see [rating](#rating) request params
+
+### Return Value
+
+A `Request` object in a pending or completed state.
+
+Name | Type | Description
+--------- | ------- | -----------
+id | string | A unique ID for this request, used to identify this request in future calls.
+status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
+response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`t` - time offset in seconds (for video, audio)<br>`response` - the response per annotation
+type | string | The request type, always `annotations-with-rating`.
+ | |
+instruction | string | *provided when making the request*
+attachments_type | string | *provided when making the request*
+attachments | string[] | *provided when making the request*
+min_annotations | number | *provided when making the request*
+max_annotations | number | *provided when making the request*
+per_annotation | object | *provided when making the request*
 
 <h1 id="toc-section">Management</h1>
 
@@ -1030,10 +1240,14 @@ request | object | *provided when making the request*
 
 ## Retrieve request
 
+<aside class="success">
+This API call is free and isn't counted against your quota
+</aside>
+
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=10 HTTP/1.1
 Host: api.crunchable.io
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 ```
 
 ```shell
@@ -1105,10 +1319,15 @@ attachments | string[] | *provided when making the request*
 
 ## Retrieve response
 
+<aside class="success">
+This API call is free and isn't counted against your quota
+</aside>
+
+
 ```http
 GET /v1/responses/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=10 HTTP/1.1
 Host: api.crunchable.io
-Authorization: Basic dGVzdF9qM3RlcHF2cllJYVlzQlE2RXpsSGVBQkk6
+X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 ```
 
 ```shell
