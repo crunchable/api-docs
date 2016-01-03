@@ -7,7 +7,7 @@ language_tabs:
   - javascript: Node
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='http://crunchable.io/developers/register.html'>Sign Up for a Developer Key</a>
   - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -22,7 +22,7 @@ Welcome to the Crunchable.io API!
 
 # Authentication
 
-Every API call must be authenticated by including your secret API key in the request. You can manage your API keys in the [Dashboard](https://crunchable.io/dashboard).
+Every API call must be authenticated by including your secret API key in the request. You can manage your API keys in the [Developer Console](http://crunchable.io/developers/index.html).
 
 Authentication of an API call is performed using HTTP headers. Provide your API key as a custom HTTP header named `X-Crunch-API-Key`. You can keep your key secure by making API calls over SSL (HTTPS) as this will encrypt the entire request, headers included.
 
@@ -36,7 +36,7 @@ A sample test API key is included in all the examples on this page, so you can t
 POST /v1/requests/multiple-choice?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Does the image contain violent content?",
@@ -49,7 +49,7 @@ X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
-  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -d instruction="Does the image contain violent content?" \
   -d attachments_type="image" \
   -d attachments[]="http://i.imgur.com/qRWH5.jpg" \
@@ -61,7 +61,7 @@ curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.requestMultipleChoice({
@@ -87,7 +87,7 @@ For testing purposes, you can use all API in a *staging environment*. In staging
 * API calls are completely free without any limitation
 * Responses for requests are staged so you shouldn't actually rely on them
 
-To make your calls run on staging, use the **Test API Key** available in the [Dashboard](https://crunchable.io/dashboard). Notice that staging API keys always have the prefix `test_` for easy identification.
+To make your calls run on staging, use the **Test API Key** available in the [Developer Console](http://crunchable.io/developers/index.html). Notice that staging API keys always have the prefix `test_` for easy identification.
 
 # Making Requests
 
@@ -112,17 +112,17 @@ When making a request, the most important parameter you need to provide is `inst
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158 HTTP/1.1
 Host: api.crunchable.io
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:"
+  -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
 ```
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.getRequest(
@@ -180,17 +180,17 @@ See best practices below for recommendations on how often to make recurring call
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158 HTTP/1.1
 Host: api.crunchable.io
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:"
+  -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
 ```
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.getRequest(
@@ -205,17 +205,17 @@ crunchable.getRequest(
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30 HTTP/1.1
 Host: api.crunchable.io
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:"
+  -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
 ```
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.getRequest(
@@ -255,7 +255,7 @@ The recommended practice is to double your delay time between calls. Let's assum
 POST /v1/requests/multiple-choice?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Does the image contain violent content?",
@@ -268,7 +268,7 @@ X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
-  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -d instruction="Does the image contain violent content?" \
   -d attachments_type="image" \
   -d attachments[]="http://i.imgur.com/qRWH5.jpg" \
@@ -280,7 +280,7 @@ curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.requestMultipleChoice({
@@ -359,7 +359,7 @@ max_answers | number | *provided when making the request*
 POST /v1/requests/free-text?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Translate from Spanish to English",
@@ -370,7 +370,7 @@ X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/free-text?block=10" \
-  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -d instruction="Translate from Spanish to English" \
   -d attachments_type="text" \
   -d attachments[]="hola mundo"
@@ -378,7 +378,7 @@ curl "https://api.crunchable.io/v1/requests/free-text?block=10" \
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.requestFreeText({
@@ -447,7 +447,7 @@ validation | string | *provided when making the request*
 POST /v1/requests/rating?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Estimate the age of the person in the image",
@@ -461,7 +461,7 @@ X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/rating?block=10" \
-  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -d instruction="Estimate the age of the person in the image" \
   -d attachments_type="image" \
   -d attachments[]="http://i.imgur.com/GWxg2wC.jpg" \
@@ -472,7 +472,7 @@ curl "https://api.crunchable.io/v1/requests/rating?block=10" \
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.requestRating({
@@ -557,7 +557,7 @@ label_max | string | *provided when making the request*
 POST /v1/requests/image?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "A picture of a birthday cake"
@@ -566,13 +566,13 @@ X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/image?block=10" \
-  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -d instruction="A picture of a birthday cake"
 ```
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.requestImage({
@@ -635,7 +635,7 @@ attachments | string[] | *provided when making the request*
 POST /v1/requests/video?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "A video of a cat walking"
@@ -644,13 +644,13 @@ X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/video?block=10" \
-  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -d instruction="A video of a cat walking"
 ```
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.requestVideo({
@@ -713,7 +713,7 @@ attachments | string[] | *provided when making the request*
 POST /v1/requests/audio?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Pronounce the word",
@@ -724,7 +724,7 @@ X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/audio?block=10" \
-  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -d instruction="Pronounce the word" \
   -d attachments_type="text" \
   -d attachments[]="encyclopedia"
@@ -732,7 +732,7 @@ curl "https://api.crunchable.io/v1/requests/audio?block=10" \
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.requestAudio({
@@ -801,7 +801,7 @@ attachments | string[] | *provided when making the request*
 POST /v1/requests/annotations?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Mark the fashion accessories in the image",
@@ -812,7 +812,7 @@ X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/annotations?block=10" \
-  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -d instruction="Mark the fashion accessories in the image" \
   -d attachments_type="image" \
   -d attachments[]="http://i.imgur.com/piKjc.jpg"
@@ -820,7 +820,7 @@ curl "https://api.crunchable.io/v1/requests/annotations?block=10" \
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.requestAnnotations({
@@ -895,7 +895,7 @@ max_annotations | number | *provided when making the request*
 POST /v1/requests/annotations-with-multiple-choice?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Mark all the cats in the image",
@@ -911,7 +911,7 @@ X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/annotations-with-multiple-choice?block=10" \
-  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -d instruction="Mark all the cats in the image" \
   -d attachments_type="image" \
   -d attachments[]="http://i.imgur.com/2hOoEp1.jpg" \
@@ -925,7 +925,7 @@ curl "https://api.crunchable.io/v1/requests/annotations-with-multiple-choice?blo
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.requestAnnotationsWithMultipleChoice({
@@ -1012,7 +1012,7 @@ per_annotation | object | *provided when making the request*
 POST /v1/requests/annotations-with-free-text?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Mark all the cats in the image",
@@ -1026,7 +1026,7 @@ X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/annotations-with-free-text?block=10" \
-  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -d instruction="Mark all the cats in the image" \
   -d attachments_type="image" \
   -d attachments[]="http://i.imgur.com/2hOoEp1.jpg" \
@@ -1035,7 +1035,7 @@ curl "https://api.crunchable.io/v1/requests/annotations-with-free-text?block=10"
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.requestAnnotationsWithFreeText({
@@ -1118,7 +1118,7 @@ per_annotation | object | *provided when making the request*
 POST /v1/requests/annotations-with-rating?block=10 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Mark all the cats in the image",
@@ -1136,7 +1136,7 @@ X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/annotations-with-rating?block=10" \
-  -H "X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -d instruction="Mark all the cats in the image" \
   -d attachments_type="image" \
   -d attachments[]="http://i.imgur.com/2hOoEp1.jpg" \
@@ -1149,7 +1149,7 @@ curl "https://api.crunchable.io/v1/requests/annotations-with-rating?block=10" \
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.requestAnnotationsWithRating({
@@ -1247,17 +1247,17 @@ This API call is free and isn't counted against your quota
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=10 HTTP/1.1
 Host: api.crunchable.io
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
 curl "https://api.crunchable.io/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:"
+  -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
 ```
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.getRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158', 10, function (err, res) {
@@ -1327,17 +1327,17 @@ This API call is free and isn't counted against your quota
 ```http
 GET /v1/responses/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=10 HTTP/1.1
 Host: api.crunchable.io
-X-Crunch-API-Key: test_j3tepqvrYIaYsBQ6EzlHeABI
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
 curl "https://api.crunchable.io/v1/responses/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=10" \
-  -u "test_j3tepqvrYIaYsBQ6EzlHeABI:"
+  -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
 ```
 
 ```javascript
 var crunchable = require("crunchable")(
-  "test_j3tepqvrYIaYsBQ6EzlHeABI"
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
 crunchable.getResponse('44647b6f-b033-4788-9ee2-9d7aa5cb0158', 10, function (err, res) {
