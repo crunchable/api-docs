@@ -50,13 +50,12 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```shell
 curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
-  -d instruction="Does the image contain violent content?" \
-  -d attachments_type="image" \
-  -d attachments[]="http://i.imgur.com/qRWH5.jpg" \
-  -d choices_type="text" \
-  -d choices[]="no violence" \
-  -d choices[]="mild violence" \
-  -d choices[]="intense violence"
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "Does the image contain violent content?",
+        "attachments_type": "image",
+        "attachments": ["http://i.imgur.com/qRWH5.jpg"],
+        "choices_type": "text",
+        "choices": ["no violence", "mild violence", "intense violence"] }'
 ```
 
 ```javascript
@@ -269,13 +268,12 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```shell
 curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
-  -d instruction="Does the image contain violent content?" \
-  -d attachments_type="image" \
-  -d attachments[]="http://i.imgur.com/qRWH5.jpg" \
-  -d choices_type="text" \
-  -d choices[]="no violence" \
-  -d choices[]="mild violence" \
-  -d choices[]="intense violence"
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "Does the image contain violent content?",
+        "attachments_type": "image",
+        "attachments": ["http://i.imgur.com/qRWH5.jpg"],
+        "choices_type": "text",
+        "choices": ["no violence", "mild violence", "intense violence"] }'
 ```
 
 ```javascript
@@ -371,9 +369,10 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```shell
 curl "https://api.crunchable.io/v1/requests/free-text?block=10" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
-  -d instruction="Translate from Spanish to English" \
-  -d attachments_type="text" \
-  -d attachments[]="hola mundo"
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "Translate from Spanish to English",
+        "attachments_type": "text",
+        "attachments": ["hola mundo"] }'
 ```
 
 ```javascript
@@ -462,12 +461,13 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```shell
 curl "https://api.crunchable.io/v1/requests/rating?block=10" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
-  -d instruction="Estimate the age of the person in the image" \
-  -d attachments_type="image" \
-  -d attachments[]="http://i.imgur.com/GWxg2wC.jpg" \
-  -d rating_min=0 \
-  -d rating_max=100 \
-  -d rating_min=5
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "Estimate the age of the person in the image",
+        "attachments_type": "image",
+        "attachments": ["http://i.imgur.com/GWxg2wC.jpg"],
+        "rating_min": 0,
+        "rating_max": 100,
+        "rating_step": 5 }'
 ```
 
 ```javascript
@@ -567,7 +567,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```shell
 curl "https://api.crunchable.io/v1/requests/image?block=10" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
-  -d instruction="A picture of a birthday cake"
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "A picture of a birthday cake" }'
 ```
 
 ```javascript
@@ -645,7 +646,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```shell
 curl "https://api.crunchable.io/v1/requests/video?block=10" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
-  -d instruction="A video of a cat walking"
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "A video of a cat walking" }'
 ```
 
 ```javascript
@@ -725,9 +727,10 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```shell
 curl "https://api.crunchable.io/v1/requests/audio?block=10" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
-  -d instruction="Pronounce the word" \
-  -d attachments_type="text" \
-  -d attachments[]="encyclopedia"
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "Pronounce the word",
+        "attachments_type": "text",
+        "attachments": ["encyclopedia"] }'
 ```
 
 ```javascript
@@ -813,9 +816,10 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```shell
 curl "https://api.crunchable.io/v1/requests/annotations?block=10" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
-  -d instruction="Mark the fashion accessories in the image" \
-  -d attachments_type="image" \
-  -d attachments[]="http://i.imgur.com/piKjc.jpg"
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "Mark the fashion accessories in the image",
+        "attachments_type": "image",
+        "attachments": ["http://i.imgur.com/piKjc.jpg"] }'
 ```
 
 ```javascript
@@ -912,15 +916,14 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```shell
 curl "https://api.crunchable.io/v1/requests/annotations-with-multiple-choice?block=10" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
-  -d instruction="Mark all the cats in the image" \
-  -d attachments_type="image" \
-  -d attachments[]="http://i.imgur.com/2hOoEp1.jpg" \
-  -d per_annotation[instruction]="What color is the cat" \
-  -d per_annotation[choices_type]="text" \
-  -d per_annotation[choices][]="gray" \
-  -d per_annotation[choices][]="white" \
-  -d per_annotation[choices][]="black" \
-  -d per_annotation[choices][]="ginger"
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "Mark all the cats in the image",
+        "attachments_type": "image",
+        "attachments": ["http://i.imgur.com/2hOoEp1.jpg"],
+        "per_annotation": { 
+          "instruction": "What color is the cat",
+          "choices_type": "text",
+          "choices": ["gray", "white", "black", "ginger"] } }'
 ```
 
 ```javascript
@@ -1027,10 +1030,11 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```shell
 curl "https://api.crunchable.io/v1/requests/annotations-with-free-text?block=10" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
-  -d instruction="Mark all the cats in the image" \
-  -d attachments_type="image" \
-  -d attachments[]="http://i.imgur.com/2hOoEp1.jpg" \
-  -d per_annotation[instruction]="What's the facial expression of the cat?"
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "Mark all the cats in the image",
+        "attachments_type": "image",
+        "attachments": ["http://i.imgur.com/2hOoEp1.jpg"],
+        "per_annotation": { "instruction": "What's the facial expression of the cat?" } }'
 ```
 
 ```javascript
@@ -1137,14 +1141,15 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```shell
 curl "https://api.crunchable.io/v1/requests/annotations-with-rating?block=10" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
-  -d instruction="Mark all the cats in the image" \
-  -d attachments_type="image" \
-  -d attachments[]="http://i.imgur.com/2hOoEp1.jpg" \
-  -d per_annotation[instruction]="How aggressive is the cat?" \
-  -d per_annotation[rating_min]=0 \
-  -d per_annotation[rating_max]=10 \
-  -d per_annotation[label_min]="not aggressive" \
-  -d per_annotation[label_max]="very aggressive"
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "Mark all the cats in the image",
+        "attachments_type": "image",
+        "attachments": ["http://i.imgur.com/2hOoEp1.jpg"],
+        "per_annotation": { "instruction": "How aggressive is the cat?",
+          "rating_min": 0,
+          "rating_max": 10,
+          "label_min": "not aggressive",
+          "label_max": "very aggressive" } }'
 ```
 
 ```javascript
