@@ -873,6 +873,7 @@ Name | Type | Description
 instruction | string | Sentence explaining in natural language what exactly is requested in this call.
 attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
 attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+annotations_type *(optional)* | string | The type of requested annotation. Potential values:<br>`point` - pinpointed location (x,y) *(default)*<br>`rectangle` - marked area (x,y,x2,y2)
 min_annotations *(optional)* | number | Minimum number of requested annotations. Defaults to `1`.
 max_annotations *(optional)* | number | Maximum number of requested answers.
 
@@ -884,12 +885,13 @@ Name | Type | Description
 --------- | ------- | -----------
 id | string | A unique ID for this request, used to identify this request in future calls.
 status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
-response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`t` - time offset in seconds (for video, audio)<br>`attachment_index` - when more than one provided
+response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`x2` - 2nd location (on annotations type rectangle)<br>`y2` - 2nd location (on annotations type rectangle)<br>`t` - time offset in seconds (for video, audio)<br>`attachment_index` - when more than one provided
 type | string | The request type, always `annotations`.
  | |
 instruction | string | *provided when making the request*
 attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
+annotations_type | string | *provided when making the request*
 min_annotations | number | *provided when making the request*
 max_annotations | number | *provided when making the request*
 
@@ -920,7 +922,7 @@ curl "https://api.crunchable.io/v1/requests/annotations-with-multiple-choice?blo
   -d '{ "instruction": "Mark all the cats in the image",
         "attachments_type": "image",
         "attachments": ["http://i.imgur.com/2hOoEp1.jpg"],
-        "per_annotation": { 
+        "per_annotation": {
           "instruction": "What color is the cat",
           "choices_type": "text",
           "choices": ["gray", "white", "black", "ginger"] } }'
@@ -987,6 +989,7 @@ Name | Type | Description
 instruction | string | Sentence explaining in natural language what exactly is requested in this call.
 attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
 attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+annotations_type *(optional)* | string | The type of requested annotation. Potential values:<br>`point` - pinpointed location (x,y) *(default)*<br>`rectangle` - marked area (x,y,x2,y2)
 min_annotations *(optional)* | number | Minimum number of requested annotations. Defaults to `1`.
 max_annotations *(optional)* | number | Maximum number of requested answers.
 per_annotation | object | The request per annotation. A `Request` object containing:<br> `instruction` - natural language request<br>`choices_type` - see [multiple choice](#multiple-choice) request params<br>`choices` - see [multiple choice](#multiple-choice) request params
@@ -999,12 +1002,13 @@ Name | Type | Description
 --------- | ------- | -----------
 id | string | A unique ID for this request, used to identify this request in future calls.
 status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
-response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`t` - time offset in seconds (for video, audio)<br>`response` - the response per annotation
+response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`x2` - 2nd location (on annotations type rectangle)<br>`y2` - 2nd location (on annotations type rectangle)<br>`t` - time offset in seconds (for video, audio)<br>`attachment_index` - when more than one provided<br>`response` - the response per annotation
 type | string | The request type, always `annotations-with-multiple-choice`.
  | |
 instruction | string | *provided when making the request*
 attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
+annotations_type | string | *provided when making the request*
 min_annotations | number | *provided when making the request*
 max_annotations | number | *provided when making the request*
 per_annotation | object | *provided when making the request*
@@ -1094,6 +1098,7 @@ Name | Type | Description
 instruction | string | Sentence explaining in natural language what exactly is requested in this call.
 attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
 attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+annotations_type *(optional)* | string | The type of requested annotation. Potential values:<br>`point` - pinpointed location (x,y) *(default)*<br>`rectangle` - marked area (x,y,x2,y2)
 min_annotations *(optional)* | number | Minimum number of requested annotations. Defaults to `1`.
 max_annotations *(optional)* | number | Maximum number of requested answers.
 per_annotation | object | The request per annotation. A `Request` object containing:<br> `instruction` - natural language request<br>`validation` - see [free text](#free-text) request params
@@ -1106,12 +1111,13 @@ Name | Type | Description
 --------- | ------- | -----------
 id | string | A unique ID for this request, used to identify this request in future calls.
 status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
-response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`t` - time offset in seconds (for video, audio)<br>`response` - the response per annotation
+response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`x2` - 2nd location (on annotations type rectangle)<br>`y2` - 2nd location (on annotations type rectangle)<br>`t` - time offset in seconds (for video, audio)<br>`attachment_index` - when more than one provided<br>`response` - the response per annotation
 type | string | The request type, always `annotations-with-free-text`.
  | |
 instruction | string | *provided when making the request*
 attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
+annotations_type | string | *provided when making the request*
 min_annotations | number | *provided when making the request*
 max_annotations | number | *provided when making the request*
 per_annotation | object | *provided when making the request*
@@ -1217,6 +1223,7 @@ Name | Type | Description
 instruction | string | Sentence explaining in natural language what exactly is requested in this call.
 attachments_type *(optional)* | string | The type of the array elements in the `attachments` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
 attachments *(optional)* | string[] | An array of strings providing additional resources which are required to perform the instruction.
+annotations_type *(optional)* | string | The type of requested annotation. Potential values:<br>`point` - pinpointed location (x,y) *(default)*<br>`rectangle` - marked area (x,y,x2,y2)
 min_annotations *(optional)* | number | Minimum number of requested annotations. Defaults to `1`.
 max_annotations *(optional)* | number | Maximum number of requested answers.
 per_annotation | object | The request per annotation. A `Request` object containing:<br> `instruction` - natural language request<br>`rating_min` - see [rating](#rating) request params<br>`rating_max` - see [rating](#rating) request params<br>`rating_step` - see [rating](#rating) request params<br>`label_min` - see [rating](#rating) request params<br>`label_max` - see [rating](#rating) request params
@@ -1229,12 +1236,13 @@ Name | Type | Description
 --------- | ------- | -----------
 id | string | A unique ID for this request, used to identify this request in future calls.
 status | string | Current status of the request. Potential values:<br>`complete` - response ready under the `response` field<br>`pending` - response not ready and will be returned later
-response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`t` - time offset in seconds (for video, audio)<br>`response` - the response per annotation
+response *(optional)* | array | The response for the completed request (if available). An array of annotation objects, each containing:<br>`x` - horizontal pixel location (for image, video)<br>`y` - vertical pixel location (for image, video)<br>`x2` - 2nd location (on annotations type rectangle)<br>`y2` - 2nd location (on annotations type rectangle)<br>`t` - time offset in seconds (for video, audio)<br>`attachment_index` - when more than one provided<br>`response` - the response per annotation
 type | string | The request type, always `annotations-with-rating`.
  | |
 instruction | string | *provided when making the request*
 attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
+annotations_type | string | *provided when making the request*
 min_annotations | number | *provided when making the request*
 max_annotations | number | *provided when making the request*
 per_annotation | object | *provided when making the request*
