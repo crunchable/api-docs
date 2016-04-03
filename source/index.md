@@ -33,7 +33,7 @@ A sample test API key is included in all the examples on this page, so you can t
 > This call runs on staging because the API key starts with `test_`
 
 ```http
-POST /v1/requests/multiple-choice?block=10 HTTP/1.1
+POST /v1/requests/multiple-choice?block=30 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
@@ -48,7 +48,7 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
+curl "https://api.crunchable.io/v1/requests/multiple-choice?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Does the image contain violent content?",
@@ -251,7 +251,7 @@ The recommended practice is to double your delay time between calls. Let's assum
 # Multiple Choice
 
 ```http
-POST /v1/requests/multiple-choice?block=10 HTTP/1.1
+POST /v1/requests/multiple-choice?block=30 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
@@ -266,7 +266,7 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/multiple-choice?block=10" \
+curl "https://api.crunchable.io/v1/requests/multiple-choice?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Does the image contain violent content?",
@@ -354,7 +354,7 @@ max_answers | number | *provided when making the request*
 # Free Text
 
 ```http
-POST /v1/requests/free-text?block=10 HTTP/1.1
+POST /v1/requests/free-text?block=30 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
@@ -367,7 +367,7 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/free-text?block=10" \
+curl "https://api.crunchable.io/v1/requests/free-text?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Translate from Spanish to English",
@@ -443,7 +443,7 @@ validation | string | *provided when making the request*
 # Rating
 
 ```http
-POST /v1/requests/rating?block=10 HTTP/1.1
+POST /v1/requests/rating?block=30 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
@@ -459,7 +459,7 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/rating?block=10" \
+curl "https://api.crunchable.io/v1/requests/rating?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Estimate the age of the person in the image",
@@ -554,7 +554,7 @@ label_max | string | *provided when making the request*
 ## Image
 
 ```http
-POST /v1/requests/image?block=10 HTTP/1.1
+POST /v1/requests/image?block=30 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
@@ -565,7 +565,7 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/image?block=10" \
+curl "https://api.crunchable.io/v1/requests/image?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "A picture of a birthday cake" }'
@@ -633,7 +633,7 @@ attachments | string[] | *provided when making the request*
 ## Video
 
 ```http
-POST /v1/requests/video?block=10 HTTP/1.1
+POST /v1/requests/video?block=30 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
@@ -644,7 +644,7 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/video?block=10" \
+curl "https://api.crunchable.io/v1/requests/video?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "A video of a cat walking" }'
@@ -712,7 +712,7 @@ attachments | string[] | *provided when making the request*
 ## Audio
 
 ```http
-POST /v1/requests/audio?block=10 HTTP/1.1
+POST /v1/requests/audio?block=30 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
@@ -725,7 +725,7 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/audio?block=10" \
+curl "https://api.crunchable.io/v1/requests/audio?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Pronounce the word",
@@ -801,7 +801,7 @@ attachments | string[] | *provided when making the request*
 ## Simple annotations
 
 ```http
-POST /v1/requests/annotations?block=10 HTTP/1.1
+POST /v1/requests/annotations?block=30 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
@@ -814,7 +814,7 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/annotations?block=10" \
+curl "https://api.crunchable.io/v1/requests/annotations?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Mark the fashion accessories in the image",
@@ -898,7 +898,7 @@ max_annotations | number | *provided when making the request*
 ## Annotations with multiple choice
 
 ```http
-POST /v1/requests/annotations-with-multiple-choice?block=10 HTTP/1.1
+POST /v1/requests/annotations-with-multiple-choice?block=30 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
@@ -916,7 +916,7 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/annotations-with-multiple-choice?block=10" \
+curl "https://api.crunchable.io/v1/requests/annotations-with-multiple-choice?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Mark all the cats in the image",
@@ -1016,7 +1016,7 @@ per_annotation | object | *provided when making the request*
 ## Annotations with free text
 
 ```http
-POST /v1/requests/annotations-with-free-text?block=10 HTTP/1.1
+POST /v1/requests/annotations-with-free-text?block=30 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
@@ -1032,7 +1032,7 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/annotations-with-free-text?block=10" \
+curl "https://api.crunchable.io/v1/requests/annotations-with-free-text?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Mark all the cats in the image",
@@ -1125,7 +1125,7 @@ per_annotation | object | *provided when making the request*
 ## Annotations with rating
 
 ```http
-POST /v1/requests/annotations-with-rating?block=10 HTTP/1.1
+POST /v1/requests/annotations-with-rating?block=30 HTTP/1.1
 Host: api.crunchable.io
 Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
@@ -1145,7 +1145,7 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/annotations-with-rating?block=10" \
+curl "https://api.crunchable.io/v1/requests/annotations-with-rating?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Mark all the cats in the image",
@@ -1251,20 +1251,20 @@ per_annotation | object | *provided when making the request*
 
 # Requests
 
-## Retrieve request
+## Retrieve request status and response
 
 <aside class="success">
 This API call is free and isn't counted against your quota
 </aside>
 
 ```http
-GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=10 HTTP/1.1
+GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30 HTTP/1.1
 Host: api.crunchable.io
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=10" \
+curl "https://api.crunchable.io/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30" \
   -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
 ```
 
@@ -1294,7 +1294,8 @@ crunchable.getRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158', 10, function (err,
 }
 ```
 
-Retrieve the details of an existing request. Supply the unique request ID returned when the request was initially created.
+Retrieve the details of an existing request, and the response (once the request is completed). 
+Supply the unique request ID returned when the request was initially created.
 
 ### HTTP Request
 
@@ -1327,71 +1328,5 @@ instruction | string | *provided when making the request*
 attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
 ... | ... | *other fields provided when making the request*
-
-# Responses
-
-## Retrieve response
-
-<aside class="success">
-This API call is free and isn't counted against your quota
-</aside>
-
-
-```http
-GET /v1/responses/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=10 HTTP/1.1
-Host: api.crunchable.io
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
-```
-
-```shell
-curl "https://api.crunchable.io/v1/responses/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=10" \
-  -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
-```
-
-```javascript
-var crunchable = require("crunchable")(
-  "test_e53bbf19fdd077eda1cd933a54ebe987"
-);
-
-crunchable.getResponse('44647b6f-b033-4788-9ee2-9d7aa5cb0158', 10, function (err, res) {
-  // handle response here
-});
-```
-
-> Example Response (JSON)
-
-```json
-{
-  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
-  "response": "yes"
-}
-```
-
-Retrieve the details of a response to a specific request. Supply the unique request ID returned when the request was initially created.
-
-### HTTP Request
-
-`GET /v1/responses/{request_id}`
-
-### Path Parameters
-
-Name | Type | Description
---------- | ------- | -----------
-request_id | string | The unique ID of the request, returned when the request was initially created.
-
-### Query Parameters
-
-Name | Default | Description
---------- | ------- | -----------
-block | 0 | Time in seconds the request should block for a response. If the request isn't completed before this timeout, a pending result is returned.
-
-### Return Value
-
-The response content. If the response isn't ready yet because the request is still pending, HTTP error code `449 Pending` is returned.
-
-Name | Type | Description
---------- | ------- | -----------
-id | string | A unique ID for this request, used to identify this request in future calls.
-response | string | The response for the completed request. Format depends on the request type.
 
 <h1 id="toc-section">Appendix</h1>
