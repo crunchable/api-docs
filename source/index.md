@@ -549,9 +549,11 @@ rating_step | number | *provided when making the request*
 label_min | string | *provided when making the request*
 label_max | string | *provided when making the request*
 
-# Media
-
+# Media (Coming Soon!)
+<aside class="notice">These APIs are planned for a future relase</aside>
 ## Image
+
+<aside class="notice">This API is planned for a future relase</aside>
 
 ```http
 POST /v1/requests/image?block=30 HTTP/1.1
@@ -632,6 +634,8 @@ attachments | string[] | *provided when making the request*
 
 ## Video
 
+<aside class="notice">This API is planned for a future relase</aside>
+
 ```http
 POST /v1/requests/video?block=30 HTTP/1.1
 Host: api.crunchable.io
@@ -710,6 +714,8 @@ attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
 
 ## Audio
+
+<aside class="notice">This API is planned for a future relase</aside>
 
 ```http
 POST /v1/requests/audio?block=30 HTTP/1.1
