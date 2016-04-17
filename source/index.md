@@ -330,7 +330,7 @@ attachments *(optional)* | string[] | An array of strings providing additional r
 choices_type *(optional)* | string | The type of the array elements in the `choices` parameter. Potential values:<br>`text` - plain text *(default)*<br>`image` - URL of an image (jpg,png,gif)<br>`video` - URL of a video (mp4)<br>`audio` - URL of an audio file (wav,mp3)<br>`website` - URL of a website (html)
 choices | string[] | An array of strings describing the potential choices.
 min_answers *(optional)* | number | Minimum number of allowed answers. Defaults to `1`.
-max_answers *(optional)* | number | Maximum number of allowed answers. Defaults to `1`. Give `0` for no limit.
+max_answers *(optional)* | number | Maximum number of allowed answers. Give `0` for no limit (which is the default).
 
 ### Return Value
 
