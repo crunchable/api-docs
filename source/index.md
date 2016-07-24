@@ -7,8 +7,8 @@ language_tabs:
   - javascript: Node
 
 toc_footers:
-  - <a href='http://crunchable.io/developers/register.html'>Sign Up for a Developer Key</a>
-  - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
+  - <a href='https://crunchable.io/dev-console/#/register'>Sign Up for a Developer Key</a>
+  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
   - errors
@@ -22,7 +22,7 @@ Welcome to the Crunchable.io API!
 
 # Authentication
 
-Every API call must be authenticated by including your secret API key in the request. You can manage your API keys in the [Developer Console](http://crunchable.io/developers/index.html).
+Every API call must be authenticated by including your secret API key in the request. You can manage your API keys in the [Developer Console](https://crunchable.io/dev-console/).
 
 Authentication of an API call is performed using HTTP headers. Provide your API key as a custom HTTP header named `X-Crunch-API-Key`. You can keep your key secure by making API calls over SSL (HTTPS) as this will encrypt the entire request, headers included.
 
@@ -86,7 +86,7 @@ For testing purposes, you can use all API in a *staging environment*. In staging
 * API calls are completely free without any limitation
 * Responses for requests are staged so you shouldn't actually rely on them
 
-To make your calls run on staging, use the **Test API Key** available in the [Developer Console](http://crunchable.io/developers/index.html). Notice that staging API keys always have the prefix `test_` for easy identification.
+To make your calls run on staging, use the **Test API Key** available in the [Developer Console](https://crunchable.io/dev-console/). Notice that staging API keys always have the prefix `test_` for easy identification.
 
 # Making Requests
 
@@ -100,7 +100,7 @@ There are several types of requests:
 
 * [**Rating**](#rating) - You provide a numeric sliding scale and the response is a numeric rating on this scale.
 
-* [**Media**](#media) - The response is an image, video or audio file according to the request.
+* [**Media**](#media-coming-soon) - The response is an image, video or audio file according to the request.
 
 * [**Annotations**](#annotations) - You provide a resource such as an image and request annotations over its content (marked points of interest).
 
@@ -156,7 +156,11 @@ A request might take a little time to process. This means that the response migh
 
 * **pending** - The request is still pending and the response is not ready yet. You'll have to wait until the request is completed before you can consume the response.
 
-If a request is pending, the simplest method to wait until it's complete is by *polling* continuously. As long as the response is still pending, wait a little longer and try again. Both the [Retrieve response](#retrieve-response) method or the [Retrieve request](#retrieve-request) method can be used for this purpose:
+* **flagged** - The request as it is cannot be completed, probably due to some techincal issue or an unintelligble instruction. For more details - read the 'cruncher_feedback' field on the request. 
+
+* **aborted** - The request was aborted (see [Aborting Requests](#aborting-pending-requests)) 
+
+If a request is pending, the simplest method to wait until it's complete is by *polling* continuously. As long as the response is still pending, wait a little longer and try again. The [Retrieve request](#retrieving-requests) method can be used for this purpose:
 
 `POST /v1/requests/multiple-choice { ... }`<br>
 `{ id: "44647b6f-b033-4788-9ee2-9d7aa5cb0158", status: "pending", ... }`
@@ -245,6 +249,21 @@ Since server replies might be in the *pending* status, you may need to poll cont
 Let's assume you are running a production system with high load and using *non-blocking* calls. The question is how long should you wait before making the next polling call.
 
 The recommended practice is to double your delay time between calls. Let's assume you wait 15 seconds between the first and second calls. If the second call is still *pending*, wait 30 seconds before making the third call. If the third call is still *pending*, wait 60 seconds before making the fourth call... and so forth.
+
+## Using webhooks
+
+If you want to avoid polling the server for responses, you can specify a webhook and crunchable will POST the completed request back to you as soon as it's ready.
+To specify a webhook simply add the **hook_url** parameter
+
+`{`<br>
+`  instruction: ...,`<br>
+`  ...`<br>
+`  hook_url: 'http://my.webhook/endpoint/',`<br>
+`}`
+
+It is recommended to use webhooks *on top* of other (polling) methods, to avoid cases where a request is "lost" due to temporary unavailability of the webhook.
+
+It makes sense to setup a webhook in order to receive quick updates on request completion, but periodically poll all 'pending' requests to make sure none got lost.
 
 <h1 id="toc-section">Requests</h1>
 
@@ -1253,11 +1272,89 @@ min_annotations | number | *provided when making the request*
 max_annotations | number | *provided when making the request*
 per_annotation | object | *provided when making the request*
 
+<h1 id="toc-section">Attachments</h1>
+
+Attaching media to requests
+
+# Embedding Youtube Videos
+
+Embedding videos from YouTube is easy, but instead of using the "normal" link to the video, you should use the YouTube Embedded Player. Here's how to do it:
+
+1. Get the YouTube **video id**. For example, in this case: https://www.youtube.com/watch?v=R0V_D4zaEpU the **video id** is **R0V_D4zaEpU**
+
+2. Add the **video id** to the embedded player url, like this: **https://www.youtube.com/embed/R0V_D4zaEpU**
+
+Use this link when sending requests, together with `{attachments_type: video}`
+
+# Making Phone Calls
+
+```http
+POST /v1/requests/free-text HTTP/1.1
+Host: api.crunchable.io
+Content-Type: application/json
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+
+{
+  "instruction": "Please dial the number below and enter the supplied PIN code. An automated system will tell you the current balance in an account. Please write down the balance in the response",
+  "attachments_type": "text",
+  "attachments": [ 
+    "dial:+1212123456",
+    "PIN Code: 1234"
+  ],
+  "validation": "number"
+}
+```
+
+```shell
+curl "https://api.crunchable.io/v1/requests/free-text?block=30" \
+  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "instruction": "Please dial the number below and enter the supplied PIN code. An automated system will tell you the current balance in an account. Please write down the balance in the response",
+    "attachments_type": "text",
+    "attachments": [ 
+      "dial:+1212123456",
+      "PIN Code: 1234"
+    ],
+    "validation": "number"
+  }'
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
+);
+
+crunchable.requestFreeText({
+  "instruction": "Please dial the number below and enter the supplied PIN code. An automated system will tell you the current balance in an account. Please write down the balance in the response",
+  "attachments_type": "text",
+  "attachments": [ 
+    "dial:+1212123456",
+    "PIN Code: 1234"
+  ],
+  "validation": "number"
+}, 10, function (err, res) {
+  // handle response here
+});
+```
+
+<aside class="warning">
+Additional charges apply when making phone calls
+</aside>
+
+If you want to attach a phone number that Crunchers will dial in order to perform your request, please prefix it with the 'dial:' prefix.
+This will allow us to recognize that this is a phone number, and optimize call charges by routing the call through the web.
+
+`{`<br>
+`  instruction: ...`<br>
+`  ...`<br>
+`  attachments_type: "text",`<br>
+`  attachments: ["dial:+123456789"]`<br>
+`}`
+
 <h1 id="toc-section">Management</h1>
 
-# Requests
-
-## Retrieve request status and response
+# Retrieving Requests
 
 <aside class="success">
 This API call is free and isn't counted against your quota
@@ -1334,5 +1431,52 @@ instruction | string | *provided when making the request*
 attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
 ... | ... | *other fields provided when making the request*
+
+# Aborting pending requests
+
+<aside class="success">
+This API call is free and isn't counted against your quota
+</aside>
+
+```http
+POST /v1/tasks/abort/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30 HTTP/1.1
+Host: api.crunchable.io
+X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+```
+
+```shell
+curl -X POST "https://api.crunchable.io/v1/tasks/abort/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30" \
+  -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
+```
+
+```javascript
+var crunchable = require("crunchable")(
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
+);
+
+crunchable.abortRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158', 10, function (err, res) {
+  // handle response here
+});
+```
+
+> Example Response (JSON)
+
+```json
+{
+  "success": true
+}
+```
+
+Abort a pending request. Aborting a request is only possible *before* it is completed.
+
+### HTTP Request
+
+`POST /v1/tasks/abort/{request_id}`
+
+### Path Parameters
+
+Name | Type | Description
+--------- | ------- | -----------
+request_id | string | The unique ID of the request, returned when the request was initially created.
 
 <h1 id="toc-section">Appendix</h1>
