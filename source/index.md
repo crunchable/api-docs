@@ -100,7 +100,7 @@ There are several types of requests:
 
 * [**Rating**](#rating) - You provide a numeric sliding scale and the response is a numeric rating on this scale.
 
-* [**Media**](#media-coming-soon) - The response is an image, video or audio file according to the request.
+* [**Media**](#media) - The response is an image, video or audio file according to the request.
 
 * [**Annotations**](#annotations) - You provide a resource such as an image and request annotations over its content (marked points of interest).
 
@@ -264,6 +264,18 @@ To specify a webhook simply add the **hook_url** parameter
 It is recommended to use webhooks *on top* of other (polling) methods, to avoid cases where a request is "lost" due to temporary unavailability of the webhook.
 
 It makes sense to setup a webhook in order to receive quick updates on request completion, but periodically poll all 'pending' requests to make sure none got lost.
+
+## Excluding specific crunchers
+
+If, for any reason, you need to exclude specific crunchers from receiving a task, you can exclude them by adding the **exclude_crunchers** parameter:
+
+`{`<br>
+`  instruction: ...,`<br>
+`  ...`<br>
+`  exclude_crunchers: ['cruncher-id-1', 'cruncher-id-2', ...]`<br>
+`}`
+
+Cruncher IDs are included in the task response.
 
 <h1 id="toc-section">Requests</h1>
 
@@ -568,9 +580,9 @@ rating_step | number | *provided when making the request*
 label_min | string | *provided when making the request*
 label_max | string | *provided when making the request*
 
-# Media (Coming Soon!)
-<aside class="notice">These APIs are planned for a future relase</aside>
-## Image
+# Media
+
+## Image (Coming Soon!)
 
 <aside class="notice">This API is planned for a future relase</aside>
 
@@ -651,7 +663,7 @@ instruction | string | *provided when making the request*
 attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
 
-## Video
+## Video (Coming Soon!)
 
 <aside class="notice">This API is planned for a future relase</aside>
 
@@ -733,8 +745,6 @@ attachments_type | string | *provided when making the request*
 attachments | string[] | *provided when making the request*
 
 ## Audio
-
-<aside class="notice">This API is planned for a future relase</aside>
 
 ```http
 POST /v1/requests/audio?block=30 HTTP/1.1
@@ -1295,10 +1305,10 @@ Content-Type: application/json
 X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
-  "instruction": "Please dial the number below and enter the supplied PIN code. An automated system will tell you the current balance in an account. Please write down the balance in the response",
+  "instruction": "Please dial the number below and enter. The supplied PIN code will be entered automaticall (no need to enter it). An automated system will tell you the current balance in an account. Please write down the balance in the response",
   "attachments_type": "text",
   "attachments": [ 
-    "dial:+1212123456",
+    "dial:+1212123456@ww1234",
     "PIN Code: 1234"
   ],
   "validation": "number"
@@ -1310,10 +1320,10 @@ curl "https://api.crunchable.io/v1/requests/free-text?block=30" \
   -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{
-    "instruction": "Please dial the number below and enter the supplied PIN code. An automated system will tell you the current balance in an account. Please write down the balance in the response",
+    "instruction": "Please dial the number below and enter. The supplied PIN code will be entered automaticall (no need to enter it). An automated system will tell you the current balance in an account. Please write down the balance in the response",
     "attachments_type": "text",
     "attachments": [ 
-      "dial:+1212123456",
+      "dial:+1212123456@ww1234",
       "PIN Code: 1234"
     ],
     "validation": "number"
@@ -1326,10 +1336,10 @@ var crunchable = require("crunchable")(
 );
 
 crunchable.requestFreeText({
-  "instruction": "Please dial the number below and enter the supplied PIN code. An automated system will tell you the current balance in an account. Please write down the balance in the response",
+  "instruction": "Please dial the number below and enter. The supplied PIN code will be entered automaticall (no need to enter it). An automated system will tell you the current balance in an account. Please write down the balance in the response",
   "attachments_type": "text",
   "attachments": [ 
-    "dial:+1212123456",
+    "dial:+1212123456@ww1234",
     "PIN Code: 1234"
   ],
   "validation": "number"
@@ -1344,6 +1354,10 @@ Additional charges apply when making phone calls
 
 If you want to attach a phone number that Crunchers will dial in order to perform your request, please prefix it with the 'dial:' prefix.
 This will allow us to recognize that this is a phone number, and optimize call charges by routing the call through the web.
+
+In order to automate sending DTMF tones after the call is established, add a '@' sign at the end of the phone number, and after that the required DTMF tones. In order to wait 0.5 seconds before sending a tone, use the 'w' sign. 
+
+For example:
 
 `{`<br>
 `  instruction: ...`<br>
