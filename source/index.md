@@ -69,7 +69,7 @@ crunchable.requestMultipleChoice({
   attachments: [ "http://i.imgur.com/qRWH5.jpg" ],
   choices_type: "text",
   choices: [ "no violence", "mild violence", "intense violence" ]
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -125,8 +125,8 @@ var crunchable = require("crunchable")(
 );
 
 crunchable.getRequest(
-  '44647b6f-b033-4788-9ee2-9d7aa5cb0158',
-  function (err, res) {
+  '44647b6f-b033-4788-9ee2-9d7aa5cb0158')
+.then(function (res) {
   // handle response here
 });
 ```
@@ -197,8 +197,8 @@ var crunchable = require("crunchable")(
 );
 
 crunchable.getRequest(
-  '44647b6f-b033-4788-9ee2-9d7aa5cb0158',
-  function (err, res) {
+  '44647b6f-b033-4788-9ee2-9d7aa5cb0158')
+.then(function (res) {
   // handle response here
 });
 ```
@@ -223,7 +223,8 @@ var crunchable = require("crunchable")(
 
 crunchable.getRequest(
   '44647b6f-b033-4788-9ee2-9d7aa5cb0158',
-  30, function (err, res) {
+  30)
+.then(function (res) {
   // handle response here
 });
 ```
@@ -318,7 +319,7 @@ crunchable.requestMultipleChoice({
   attachments: [ "http://i.imgur.com/qRWH5.jpg" ],
   choices_type: "text",
   choices: [ "no violence", "mild violence", "intense violence" ]
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -415,7 +416,7 @@ crunchable.requestFreeText({
   instruction: "Translate from Spanish to English",
   attachments_type: "text",
   attachments: [ "hola mundo" ]
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -513,7 +514,7 @@ crunchable.requestRating({
   rating_min: 0,
   rating_max: 100,
   rating_step: 5
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -611,7 +612,7 @@ var crunchable = require("crunchable")(
 
 crunchable.requestImage({
   instruction: "A picture of a birthday cake"
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -692,7 +693,7 @@ var crunchable = require("crunchable")(
 
 crunchable.requestVideo({
   instruction: "A video of a cat walking"
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -777,7 +778,7 @@ crunchable.requestAudio({
   instruction: "Pronounce the word",
   attachments_type: "text",
   attachments: [ "encyclopedia" ]
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -866,7 +867,7 @@ crunchable.requestAnnotations({
   instruction: "Mark the fashion accessories in the image",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/piKjc.jpg" ]
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -977,7 +978,7 @@ crunchable.requestAnnotationsWithMultipleChoice({
     choices_type: "text",
     choices: [ "gray", "white", "black", "ginger" ]
   }
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -1088,7 +1089,7 @@ crunchable.requestAnnotationsWithFreeText({
   per_annotation: {
     instruction: "What's the facial expression of the cat?"
   }
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -1209,7 +1210,7 @@ crunchable.requestAnnotationsWithRating({
     label_min: "not aggressive",
     label_max: "very aggressive"
   }
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -1343,7 +1344,7 @@ crunchable.requestFreeText({
     "PIN Code: 1234"
   ],
   "validation": "number"
-}, 10, function (err, res) {
+}).then(function (res) {
   // handle response here
 });
 ```
@@ -1390,7 +1391,8 @@ var crunchable = require("crunchable")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.getRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158', 10, function (err, res) {
+crunchable.getRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158')
+.then(function (res) {
   // handle response here
 });
 ```
@@ -1468,7 +1470,8 @@ var crunchable = require("crunchable")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.abortRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158', 10, function (err, res) {
+crunchable.abortRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158')
+.then(function (res) {
   // handle response here
 });
 ```
