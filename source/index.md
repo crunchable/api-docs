@@ -7,7 +7,7 @@ language_tabs:
   - javascript: Node
 
 toc_footers:
-  - <a href='https://crunchable.io/dev-console/#/register'>Sign Up for a Developer Key</a>
+  - <a href='https://account.heatintelligence.com/#/register'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -18,13 +18,13 @@ search: true
 
 # Introduction
 
-Welcome to the Crunchable.io API!
+Welcome to the Heat API!
 
 # Authentication
 
-Every API call must be authenticated by including your secret API key in the request. You can manage your API keys in the [Developer Console](https://crunchable.io/dev-console/).
+Every API call must be authenticated by including your secret API key in the request. You can manage your API keys in the [Developer Console](https://account.heatintelligence.com/).
 
-Authentication of an API call is performed using HTTP headers. Provide your API key as a custom HTTP header named `X-Crunch-API-Key`. You can keep your key secure by making API calls over SSL (HTTPS) as this will encrypt the entire request, headers included.
+Authentication of an API call is performed using HTTP headers. Provide your API key as a custom HTTP header named `X-Heat-API-Key`. You can keep your key secure by making API calls over SSL (HTTPS) as this will encrypt the entire request, headers included.
 
 A sample test API key is included in all the examples on this page, so you can test any example right away. To test requests using your account, replace the sample API key with your actual API key.
 
@@ -34,9 +34,9 @@ A sample test API key is included in all the examples on this page, so you can t
 
 ```http
 POST /v1/requests/multiple-choice?block=30 HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Does the image contain violent content?",
@@ -48,8 +48,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/multiple-choice?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/multiple-choice?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Does the image contain violent content?",
         "attachments_type": "image",
@@ -86,7 +86,7 @@ For testing purposes, you can use all API in a *staging environment*. In staging
 * API calls are completely free without any limitation
 * Responses for requests are staged so you shouldn't actually rely on them
 
-To make your calls run on staging, use the **Test API Key** available in the [Developer Console](https://crunchable.io/dev-console/). Notice that staging API keys always have the prefix `test_` for easy identification.
+To make your calls run on staging, use the **Test API Key** available in the [Developer Console](https://account.heatintelligence.com/). Notice that staging API keys always have the prefix `test_` for easy identification.
 
 # Making Requests
 
@@ -104,18 +104,18 @@ There are several types of requests:
 
 * [**Annotations**](#annotations) - You provide a resource such as an image and request annotations over its content (marked points of interest).
 
-When making a request, the most important parameter you need to provide is `instruction`. This is a sentence explaining in natural language what exactly is requested in this call. The amazing thing about the crunchable.io API is the fact that instructions can be given in *natural language*. This means the API is not limited and you can pretty much ask anything you want.
+When making a request, the most important parameter you need to provide is `instruction`. This is a sentence explaining in natural language what exactly is requested in this call. The amazing thing about the Heat API is the fact that instructions can be given in *natural language*. This means the API is not limited and you can pretty much ask anything you want.
 
 ## Complete vs pending
 
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158 HTTP/1.1
-Host: api.crunchable.io
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+Host: api.heatintelligence.com
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158" \
+curl "https://api.heatintelligence.com/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158" \
   -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
 ```
 
@@ -182,12 +182,12 @@ See best practices below for recommendations on how often to make recurring call
 
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158 HTTP/1.1
-Host: api.crunchable.io
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+Host: api.heatintelligence.com
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158" \
+curl "https://api.heatintelligence.com/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158" \
   -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
 ```
 
@@ -207,12 +207,12 @@ crunchable.getRequest(
 
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30 HTTP/1.1
-Host: api.crunchable.io
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+Host: api.heatintelligence.com
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30" \
+curl "https://api.heatintelligence.com/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30" \
   -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
 ```
 
@@ -253,7 +253,7 @@ The recommended practice is to double your delay time between calls. Let's assum
 
 ## Using webhooks
 
-If you want to avoid polling the server for responses, you can specify a webhook and crunchable will POST the completed request back to you as soon as it's ready.
+If you want to avoid polling the server for responses, you can specify a webhook and Heat will POST the completed request back to you as soon as it's ready.
 To specify a webhook simply add the **hook_url** parameter
 
 `{`<br>
@@ -284,9 +284,9 @@ Cruncher IDs are included in the task response.
 
 ```http
 POST /v1/requests/multiple-choice?block=30 HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Does the image contain violent content?",
@@ -298,8 +298,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/multiple-choice?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/multiple-choice?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Does the image contain violent content?",
         "attachments_type": "image",
@@ -387,9 +387,9 @@ max_answers | number | *provided when making the request*
 
 ```http
 POST /v1/requests/free-text?block=30 HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Translate from Spanish to English",
@@ -399,8 +399,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/free-text?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/free-text?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Translate from Spanish to English",
         "attachments_type": "text",
@@ -476,9 +476,9 @@ validation | string | *provided when making the request*
 
 ```http
 POST /v1/requests/rating?block=30 HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Estimate the age of the person in the image",
@@ -491,8 +491,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/rating?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/rating?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Estimate the age of the person in the image",
         "attachments_type": "image",
@@ -589,9 +589,9 @@ label_max | string | *provided when making the request*
 
 ```http
 POST /v1/requests/image?block=30 HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "A picture of a birthday cake"
@@ -599,8 +599,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/image?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/image?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "A picture of a birthday cake" }'
 ```
@@ -670,9 +670,9 @@ attachments | string[] | *provided when making the request*
 
 ```http
 POST /v1/requests/video?block=30 HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "A video of a cat walking"
@@ -680,8 +680,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/video?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/video?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "A video of a cat walking" }'
 ```
@@ -749,9 +749,9 @@ attachments | string[] | *provided when making the request*
 
 ```http
 POST /v1/requests/audio?block=30 HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Pronounce the word",
@@ -761,8 +761,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/audio?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/audio?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Pronounce the word",
         "attachments_type": "text",
@@ -838,9 +838,9 @@ attachments | string[] | *provided when making the request*
 
 ```http
 POST /v1/requests/annotations?block=30 HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Mark the fashion accessories in the image",
@@ -850,8 +850,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/annotations?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/annotations?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Mark the fashion accessories in the image",
         "attachments_type": "image",
@@ -935,9 +935,9 @@ max_annotations | number | *provided when making the request*
 
 ```http
 POST /v1/requests/annotations-with-multiple-choice?block=30 HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Mark all the cats in the image",
@@ -952,8 +952,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/annotations-with-multiple-choice?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/annotations-with-multiple-choice?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Mark all the cats in the image",
         "attachments_type": "image",
@@ -1053,9 +1053,9 @@ per_annotation | object | *provided when making the request*
 
 ```http
 POST /v1/requests/annotations-with-free-text?block=30 HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Mark all the cats in the image",
@@ -1068,8 +1068,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/annotations-with-free-text?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/annotations-with-free-text?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Mark all the cats in the image",
         "attachments_type": "image",
@@ -1162,9 +1162,9 @@ per_annotation | object | *provided when making the request*
 
 ```http
 POST /v1/requests/annotations-with-rating?block=30 HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Mark all the cats in the image",
@@ -1181,8 +1181,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/annotations-with-rating?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/annotations-with-rating?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{ "instruction": "Mark all the cats in the image",
         "attachments_type": "image",
@@ -1301,9 +1301,9 @@ Use this link when sending requests, together with `{attachments_type: video}`
 
 ```http
 POST /v1/requests/free-text HTTP/1.1
-Host: api.crunchable.io
+Host: api.heatintelligence.com
 Content-Type: application/json
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 
 {
   "instruction": "Please dial the number below and enter. The supplied PIN code will be entered automaticall (no need to enter it). An automated system will tell you the current balance in an account. Please write down the balance in the response",
@@ -1317,8 +1317,8 @@ X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/free-text?block=30" \
-  -H "X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+curl "https://api.heatintelligence.com/v1/requests/free-text?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
   -H "Content-Type: application/json" \
   -d '{
     "instruction": "Please dial the number below and enter. The supplied PIN code will be entered automaticall (no need to enter it). An automated system will tell you the current balance in an account. Please write down the balance in the response",
@@ -1377,12 +1377,12 @@ This API call is free and isn't counted against your quota
 
 ```http
 GET /v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30 HTTP/1.1
-Host: api.crunchable.io
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+Host: api.heatintelligence.com
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl "https://api.crunchable.io/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30" \
+curl "https://api.heatintelligence.com/v1/requests/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30" \
   -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
 ```
 
@@ -1456,12 +1456,12 @@ This API call is free and isn't counted against your quota
 
 ```http
 POST /v1/tasks/abort/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30 HTTP/1.1
-Host: api.crunchable.io
-X-Crunch-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+Host: api.heatintelligence.com
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
 ```
 
 ```shell
-curl -X POST "https://api.crunchable.io/v1/tasks/abort/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30" \
+curl -X POST "https://api.heatintelligence.com/v1/tasks/abort/44647b6f-b033-4788-9ee2-9d7aa5cb0158?block=30" \
   -u "test_e53bbf19fdd077eda1cd933a54ebe987:"
 ```
 
