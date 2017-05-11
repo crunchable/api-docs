@@ -59,11 +59,11 @@ curl "https://api.heatintelligence.com/v1/requests/multiple-choice?block=30" \
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestMultipleChoice({
+heat.requestMultipleChoice({
   instruction: "Does the image contain violent content?",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/qRWH5.jpg" ],
@@ -120,11 +120,11 @@ curl "https://api.heatintelligence.com/v1/requests/44647b6f-b033-4788-9ee2-9d7aa
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.getRequest(
+heat.getRequest(
   '44647b6f-b033-4788-9ee2-9d7aa5cb0158')
 .then(function (res) {
   // handle response here
@@ -192,11 +192,11 @@ curl "https://api.heatintelligence.com/v1/requests/44647b6f-b033-4788-9ee2-9d7aa
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.getRequest(
+heat.getRequest(
   '44647b6f-b033-4788-9ee2-9d7aa5cb0158')
 .then(function (res) {
   // handle response here
@@ -217,11 +217,11 @@ curl "https://api.heatintelligence.com/v1/requests/44647b6f-b033-4788-9ee2-9d7aa
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.getRequest(
+heat.getRequest(
   '44647b6f-b033-4788-9ee2-9d7aa5cb0158',
   30)
 .then(function (res) {
@@ -309,11 +309,11 @@ curl "https://api.heatintelligence.com/v1/requests/multiple-choice?block=30" \
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestMultipleChoice({
+heat.requestMultipleChoice({
   instruction: "Does the image contain violent content?",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/qRWH5.jpg" ],
@@ -408,11 +408,11 @@ curl "https://api.heatintelligence.com/v1/requests/free-text?block=30" \
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestFreeText({
+heat.requestFreeText({
   instruction: "Translate from Spanish to English",
   attachments_type: "text",
   attachments: [ "hola mundo" ]
@@ -503,11 +503,11 @@ curl "https://api.heatintelligence.com/v1/requests/rating?block=30" \
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestRating({
+heat.requestRating({
   instruction: "Estimate the age of the person in the image",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/GWxg2wC.jpg" ],
@@ -606,11 +606,11 @@ curl "https://api.heatintelligence.com/v1/requests/image?block=30" \
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestImage({
+heat.requestImage({
   instruction: "A picture of a birthday cake"
 }).then(function (res) {
   // handle response here
@@ -687,11 +687,11 @@ curl "https://api.heatintelligence.com/v1/requests/video?block=30" \
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestVideo({
+heat.requestVideo({
   instruction: "A video of a cat walking"
 }).then(function (res) {
   // handle response here
@@ -770,11 +770,11 @@ curl "https://api.heatintelligence.com/v1/requests/audio?block=30" \
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestAudio({
+heat.requestAudio({
   instruction: "Pronounce the word",
   attachments_type: "text",
   attachments: [ "encyclopedia" ]
@@ -859,11 +859,11 @@ curl "https://api.heatintelligence.com/v1/requests/annotations?block=30" \
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestAnnotations({
+heat.requestAnnotations({
   instruction: "Mark the fashion accessories in the image",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/piKjc.jpg" ]
@@ -965,11 +965,11 @@ curl "https://api.heatintelligence.com/v1/requests/annotations-with-multiple-cho
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestAnnotationsWithMultipleChoice({
+heat.requestAnnotationsWithMultipleChoice({
   instruction: "Mark all the cats in the image",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/2hOoEp1.jpg" ],
@@ -1078,11 +1078,11 @@ curl "https://api.heatintelligence.com/v1/requests/annotations-with-free-text?bl
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestAnnotationsWithFreeText({
+heat.requestAnnotationsWithFreeText({
   instruction: "Mark all the cats in the image",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/2hOoEp1.jpg" ],
@@ -1195,11 +1195,11 @@ curl "https://api.heatintelligence.com/v1/requests/annotations-with-rating?block
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestAnnotationsWithRating({
+heat.requestAnnotationsWithRating({
   instruction: "Mark all the cats in the image",
   attachments_type: "image",
   attachments: [ "http://i.imgur.com/2hOoEp1.jpg" ],
@@ -1332,11 +1332,11 @@ curl "https://api.heatintelligence.com/v1/requests/free-text?block=30" \
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.requestFreeText({
+heat.requestFreeText({
   "instruction": "Please dial the number below and enter. The supplied PIN code will be entered automaticall (no need to enter it). An automated system will tell you the current balance in an account. Please write down the balance in the response",
   "attachments_type": "text",
   "attachments": [ 
@@ -1387,11 +1387,11 @@ curl "https://api.heatintelligence.com/v1/requests/44647b6f-b033-4788-9ee2-9d7aa
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.getRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158')
+heat.getRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158')
 .then(function (res) {
   // handle response here
 });
@@ -1466,11 +1466,11 @@ curl -X POST "https://api.heatintelligence.com/v1/tasks/abort/44647b6f-b033-4788
 ```
 
 ```javascript
-var crunchable = require("crunchable")(
+var heat = require("heatjs")(
   "test_e53bbf19fdd077eda1cd933a54ebe987"
 );
 
-crunchable.abortRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158')
+heat.abortRequest('44647b6f-b033-4788-9ee2-9d7aa5cb0158')
 .then(function (res) {
   // handle response here
 });
