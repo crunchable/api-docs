@@ -1283,9 +1283,7 @@ min_annotations | number | *provided when making the request*
 max_annotations | number | *provided when making the request*
 per_annotation | object | *provided when making the request*
 
-<h1 id="toc-section">Attachments</h1>
-
-Attaching media to requests
+<h1 id="toc-section">Misc</h1>
 
 # Embedding Youtube Videos
 
@@ -1366,6 +1364,116 @@ For example:
 `  attachments_type: "text",`<br>
 `  attachments: ["dial:+123456789"]`<br>
 `}`
+
+
+
+# Majority Voting
+
+```http
+POST /v1/requests/multiple-choice?block=30 HTTP/1.1
+Host: api.heatintelligence.com
+Content-Type: application/json
+X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987
+
+{
+  "instruction": "Does the image contain violent content?",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/qRWH5.jpg" ],
+  "choices_type": "text",
+  "choices": [ "no violence", "mild violence", "intense violence" ],
+  "confidence": {
+    "strategy": "majority",
+    "min_agreements": 2,
+    "max_crunchers": 3
+  }
+}
+```
+
+```shell
+curl "https://api.heatintelligence.com/v1/requests/multiple-choice?block=30" \
+  -H "X-Heat-API-Key: test_e53bbf19fdd077eda1cd933a54ebe987" \
+  -H "Content-Type: application/json" \
+  -d '{ "instruction": "Does the image contain violent content?",
+        "attachments_type": "image",
+        "attachments": ["http://i.imgur.com/qRWH5.jpg"],
+        "choices_type": "text",
+        "choices": ["no violence", "mild violence", "intense violence"],
+        "confidence": {
+          "strategy": "majority",
+          "min_agreements": 2,
+          "max_crunchers": 3
+        }
+      }'
+```
+
+```javascript
+var heat = require("heatjs")(
+  "test_e53bbf19fdd077eda1cd933a54ebe987"
+);
+
+heat.requestMultipleChoice({
+  instruction: "Does the image contain violent content?",
+  attachments_type: "image",
+  attachments: [ "http://i.imgur.com/qRWH5.jpg" ],
+  choices_type: "text",
+  choices: [ "no violence", "mild violence", "intense violence" ],
+  confidence: {
+      "strategy": "majority",
+      "min_agreements": 2,
+      "max_crunchers": 3
+    }
+  }).then(function (res) {
+  // handle response here
+});
+```
+
+> Example Response (JSON)
+
+```json
+{
+  "id": "44647b6f-b033-4788-9ee2-9d7aa5cb0158",
+  "status": "complete",
+  "response": [ "no violence" ],
+  "raw_responses": {
+    "fb08318584ce0bf013c3ef987e888810": [ "no violence" ],
+    "263085f6de46a84015581ef10f303188": [ "mild violence" ],
+    "8b87fe5d625a75274d788450bc7946c6": [ "no violence" ]
+  },
+  "type": "multiple-choice",
+  "instruction": "Does the image contain violent content?",
+  "attachments_type": "image",
+  "attachments": [ "http://i.imgur.com/qRWH5.jpg" ],
+  "choices_type": "text",
+  "choices": [ "no violence", "mild violence", "intense violence" ]
+}
+```
+
+Heat constantly makes sure that returned information is correct with very high confidence.
+However, for applications that cannot tolerate even a tiny percentage of mistakes, you can ask Heat to send the request to multiple crunchers. 
+The request will only complete once enough crunchers agree on the correct response, or after a predefined number of responses were collected.
+To use this feature, add a `confidence` section to your request, with the following parameters:
+
+<aside class="notice">
+Although majority voting is supported for all request types, it makes sense mostly when using the `multiple-choice` API.
+</aside>
+
+### Request Body Parameters
+
+Name | Type | Description
+--------- | ------- | -----------
+confidence *(optional)* | object | The section containing confidence mechanism configuration
+confidence.strategy | string | The strategy to use. Currently only "majority" is supported.
+confidence.min_agreements | number | Minimum number of agreements for a response to be considered 'true' and the request to become 'complete'
+confidence.max_crunchers | number | Maximum number of attempts to reach an agreement. If the number of responses reach this number without agreemen, the request will be marked as 'complete' and the returned response will be `null`.
+
+### Return Value
+
+A `Request` object in a pending or completed state.
+
+Name | Type | Description
+--------- | ------- | -----------
+response  | string | The response for the completed request (if available). Null if no agreement was reached.
+raw_responses | object | The set of all responses by specific crunchers, a mapping of cruncher_id to response.
 
 <h1 id="toc-section">Management</h1>
 
